@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="用粒子动画演绎狮子的七种捕猎方式，依据夏勒《塞伦盖蒂的狮子》第八章。">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>狮猎七式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+SC:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-journal plate — wide canvas "plate" with a side-view inset and caption beneath, method tabs, conditions, then notes + chart + Ol Kinyei comparison. */
+:root{
+  --bg:#ece2c9; --paper:#e6d8b6; --ink:#33271b; --muted:#76624b; --rule:#c9b48c;
+  --lion:#b0661f; --lion2:#7c4210; --prey:#43352a; --prey2:#f4ecd9; --carcass:#8a3b22;
+  --hyena:#6f6656; --grass:#9a9459; --tall:#b39a4e; --bush:#56653a; --water:#6e8f96;
+  --dust:#c3a26d; --accent:#a3401c; --good:#4f6b2c; --veil:rgba(28,34,52,.30); --chip:#dccca6;
+  --f-zh:"Noto Serif SC","Noto Serif CJK SC","Songti SC","STSong",serif;
+  --f-en:"IM Fell English","Iowan Old Style",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,"DejaVu Sans Mono",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --paper:#182019; --ink:#eadfc6; --muted:#a39780; --rule:#3a4236;
+  --lion:#e2a24e; --lion2:#c47c2a; --prey:#bdb5a3; --prey2:#4a463e; --carcass:#d0714a;
+  --hyena:#8d8571; --grass:#46553a; --tall:#6c6a3c; --bush:#2c3b27; --water:#36525b;
+  --dust:#6e5b3c; --accent:#e47f50; --good:#9dbb6a; --veil:rgba(4,8,20,.38); --chip:#252d24; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121614; --paper:#182019; --ink:#eadfc6; --muted:#a39780; --rule:#3a4236;
+  --lion:#e2a24e; --lion2:#c47c2a; --prey:#bdb5a3; --prey2:#4a463e; --carcass:#d0714a;
+  --hyena:#8d8571; --grass:#46553a; --tall:#6c6a3c; --bush:#2c3b27; --water:#36525b;
+  --dust:#6e5b3c; --accent:#e47f50; --good:#9dbb6a; --veil:rgba(4,8,20,.38); --chip:#252d24; color-scheme:dark}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-zh);line-height:1.7}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+header{display:grid;gap:4px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+h1{margin:0;font-weight:900;font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:.04em;text-wrap:balance}
+h1 em{font-family:var(--f-en);font-weight:400;font-size:.42em;letter-spacing:0;color:var(--muted);margin-left:.5em;white-space:nowrap}
+.lede{margin:6px 0 0;max-width:64ch;color:var(--muted);font-size:15px}
+.plate{border:1px solid var(--rule);background:var(--paper);padding:10px;display:grid;gap:10px}
+.stage{position:relative;width:100%;aspect-ratio:240/140;max-width:100%}
+.stage canvas{display:block;width:100%;height:100%}
+.capRow{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:16px;align-items:start}
+.side{position:relative;width:100%;aspect-ratio:1.75;border:1px solid var(--rule)}
+.side canvas{display:block;width:100%;height:100%}
+.cap{display:grid;gap:4px;padding:2px 2px 0;min-width:0}
+.cap .n{font-family:var(--f-mono);font-size:12px;color:var(--accent)}
+.cap .zh{font-size:clamp(15px,2.1vw,18px);font-weight:600;min-width:0}
+.cap .en{font-family:var(--f-en);font-style:italic;color:var(--muted);font-size:15px;min-width:0}
+.prog{height:2px;background:var(--rule);position:relative}
+.prog i{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent)}
+.tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.tab{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--ink);font:inherit;text-align:left;padding:9px 10px;cursor:pointer;display:grid;gap:1px;min-width:0}
+.tab b{font-size:17px;font-weight:900;letter-spacing:.04em}
+.tab span{font-family:var(--f-en);font-style:italic;color:var(--muted);font-size:13.5px}
+.tab small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-pressed="true"] span,.tab[aria-pressed="true"] small{color:var(--bg);opacity:.8}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.ctl button,.ctl select{font:inherit;color:var(--ink);background:var(--chip);border:1px solid var(--rule);padding:6px 12px;cursor:pointer}
+.ctl label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.ctl .sp{flex:1 1 auto}
+.conds{border:1px dashed var(--rule);padding:12px 14px;display:grid;gap:8px}
+.conds h3{margin:0;font-size:16px;font-weight:900;letter-spacing:.04em}
+.conds h3 em{font-family:var(--f-en);font-weight:400;color:var(--muted);margin-left:8px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;font:inherit;font-size:14px;color:var(--ink);background:transparent;border:1px solid var(--rule);padding:4px 10px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.chip i{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] i{color:var(--bg)}
+.conds p{margin:0;font-size:13px;color:var(--muted);max-width:80ch}
+.lower{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px}
+.card{border-top:2px solid var(--ink);padding-top:12px;min-width:0}
+.card h2{margin:0 0 2px;font-size:22px;font-weight:900;letter-spacing:.04em}
+.card h2 em{font-family:var(--f-en);font-weight:400;font-size:16px;color:var(--muted);margin-left:8px}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);margin:4px 0 10px}
+.stats b{color:var(--ink);font-weight:500}
+.card ul{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:15px}
+.card li::marker{color:var(--accent)}
+.pg{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.chart{display:grid;gap:9px;margin-top:8px}
+.bar{display:grid;grid-template-columns:minmax(0,8.5em) minmax(0,1fr);gap:10px;align-items:center;font-size:14px}
+.bar .lab{min-width:0}
+.track{position:relative;height:18px;border-left:1px solid var(--ink)}
+.track i{position:absolute;top:2px;bottom:2px;left:0;background:var(--muted);opacity:.55}
+.bar.on .track i{background:var(--accent);opacity:1}
+.bar.on .lab{font-weight:600}
+.track b{position:absolute;top:0;font-family:var(--f-mono);font-size:12px;font-weight:500;line-height:18px;padding-left:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.axis{display:grid;grid-template-columns:minmax(0,8.5em) minmax(0,1fr);gap:10px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.axis div{position:relative;height:14px}
+.axis span{position:absolute;transform:translateX(-50%)}
+.chart-note{font-size:13px;color:var(--muted);margin:10px 0 0}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:12px;max-width:84ch}
+footer i{font-family:var(--f-en)}
+.exit{display:none}
+/* Exhibit mode: plate fills the screen, everything else hidden */
+body.exhibit .wrap>*:not(.plate){display:none}
+body.exhibit .plate{position:fixed;inset:0;z-index:20;border:0;overflow:hidden;align-content:center;justify-items:center;
+  padding-block:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body.exhibit .stage,body.exhibit .prog,body.exhibit .capRow{width:min(100%,calc((100vh - 230px) * 240 / 140))}
+body.exhibit .capRow{grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+body.exhibit .cap .zh{font-size:clamp(18px,2.2vw,30px)}
+body.exhibit .cap .en{font-size:clamp(15px,1.5vw,20px)}
+body.exhibit .exit{display:block;position:fixed;z-index:21;top:max(10px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));font:13px var(--f-mono);color:var(--muted);background:transparent;border:1px solid var(--rule);padding:4px 10px;cursor:pointer}
+@media (max-width:900px){.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){
+  .lower{grid-template-columns:minmax(0,1fr)}
+  .capRow{grid-template-columns:minmax(0,1fr)}
+  .side{max-width:300px}
+  .cap .en{font-size:14px}
+}
+@media (max-width:460px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.bar,.axis{grid-template-columns:minmax(0,7em) minmax(0,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">夏勒《塞伦盖蒂的狮子》第八章 · 狩猎 — Schaller, <i>The Serengeti Lion</i>, ch. 8</div>
+    <h1>狮猎七式<em>Seven ways a lion hunts</em></h1>
+    <p class="lede">金色粒子是狮子，深色粒子是猎物，左下小窗是焦点狮子的侧面姿态。每一幕的结局按书中这种方式的真实成功率抽签，所以你会看到不少失败：现实中，多数狩猎都以失败告终。</p>
+  </header>
+
+  <section class="plate" aria-label="捕猎动画">
+    <button class="exit" id="bExit" type="button">退出展陈 ✕</button>
+    <div class="stage" id="stage"><canvas id="cv" aria-label="狮子捕猎粒子动画" role="img"></canvas></div>
+    <div class="prog"><i id="prog"></i></div>
+    <div class="capRow">
+      <div class="side"><canvas id="sv" aria-label="焦点狮子侧视姿态" role="img"></canvas></div>
+      <div class="cap" aria-live="polite"><span class="n" id="capN"></span><span class="zh" id="capZh"></span><span class="en" id="capEn"></span></div>
+    </div>
+  </section>
+
+  <nav class="tabs" id="tabs" aria-label="选择狩猎方式"></nav>
+
+  <div class="ctl">
+    <button id="bPlay" type="button">❚❚ 暂停</button>
+    <button id="bReplay" type="button">↺ 再来一次</button>
+    <label for="mode">结局 <select id="mode"><option value="real" selected>按真实成功率抽签</option><option value="win">总是成功</option><option value="lose">总是失败</option></select></label>
+    <label for="spd">速度 <select id="spd"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+    <label for="auto"><input type="checkbox" id="auto" checked> 自动连播</label>
+    <label for="follow"><input type="checkbox" id="follow"> 镜头跟随</label>
+    <span class="sp"></span>
+    <button id="bExhibit" type="button">⛶ 展陈模式</button>
+  </div>
+
+  <section class="conds" aria-label="条件实验">
+    <h3>条件实验 · 潜近瞪羚<em>What changes the odds</em></h3>
+    <div class="chips" id="chips"></div>
+    <p id="condNote">选一个条件，潜近一幕会按该条件重演，结局按书中该条件下的成功率抽签。每次只改变一个条件。</p>
+  </section>
+
+  <div class="lower">
+    <article class="card" id="notes"></article>
+    <article class="card">
+      <h2>各方式的成功率<em>Success by method</em></h2>
+      <div class="stats">表 58 · p.254 · 当前一幕以红色标出</div>
+      <div class="chart" id="chart"></div>
+      <p class="chart-note">“群体”指两头及以上的狮子一起潜近或追逐，占全部狩猎的 46%，扇形散开与包抄合围都属于这一类。表中另有在水中抓获猎物和挖洞掏疣猪，样本很少，成功率记为 100%。</p>
+    </article>
+  </div>
+
+  <footer>资料：George B. Schaller, <i>The Serengeti Lion: A Study of Predator–Prey Relations</i>（University of Chicago Press, 1972）第八章中译本，数据已对照表 54–59 核对。正文写突发机会占 6.7%、伏击占 2.7%，表 58 为 6.1% 与 2.6%，此处采用表中数值。动画为示意：动物体型约放大两倍，潜近过程做了时间压缩（真实潜近通常不到 15 分钟，偶尔长达一小时）；距离读数按场景比例尺计算。</footer>
+</div>
+
+<script>
+(()=>{
+const W=240,H=140,TAU=Math.PI*2;
+let rng=Math.random;
+function mulb(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function seed(a){rng=mulb(a);}
+const R=()=>rng(),rr=(a,b)=>a+(b-a)*R();
+const hyp=Math.hypot,clamp=(v,a,b)=>v<a?a:v>b?b:v,dist=(a,b)=>hyp(a.x-b.x,a.y-b.y),pct=p=>(Math.round(p*1000)/10)+'%';
+
+/* ---------- body templates ---------- */
+const KINDS={
+  lion:{S:4.4,N:170,col:'lion',col2:'lion2',vmax:16,acc:14,big:1},
+  lionM:{S:4.7,N:200,col:'lion',col2:'lion2',vmax:15,acc:13,big:1,mane:1},
+  cub:{S:2.7,N:80,col:'lion',col2:'lion2',vmax:12,acc:10,big:1},
+  gazelle:{S:2.5,N:36,col:'prey',col2:'prey',vmax:15,acc:7.5,gz:1},
+  wildebeest:{S:3.2,N:46,col:'prey',col2:'prey',vmax:13,acc:6.5,herdy:1},
+  zebra:{S:3.2,N:52,col:'prey',col2:'prey2',vmax:13,acc:6.5,stripe:1,herdy:1},
+  hyena:{S:3.0,N:56,col:'hyena',col2:'prey',vmax:12,acc:7,hy:1},
+  jackal:{S:2.0,N:28,col:'hyena',col2:'hyena',vmax:12,acc:7}
+};
+function template(K){
+  const P=[],big=!!K.big;
+  for(let i=0;i<K.N;i++){
+    const r=R();let ox,oy,c=0,head=0;
+    if(r<0.62){const a=R()*TAU,d=Math.sqrt(R());ox=Math.cos(a)*d*(K.hy?0.85:1);oy=Math.sin(a)*d*(big?0.5:0.4);if(K.hy&&ox>0)oy*=1.25;
+      if(K.stripe)c=(Math.floor((ox+1.2)*5.5)%2)?1:0;else if(big&&R()<0.12)c=1;}
+    else if(r<0.84){const a=R()*TAU,d=Math.sqrt(R())*(big?0.27:0.22);ox=(big?1.13:0.98)+Math.cos(a)*d;oy=Math.sin(a)*d*0.9;head=1;c=big?1:0;
+      if(K.mane&&R()<0.6){const m=0.28+R()*0.16;ox=1.05+Math.cos(a)*m;oy=Math.sin(a)*m;c=1;}}
+    else{const u=R();ox=-1.0-u*(big?0.8:0.3);oy=Math.sin(u*2.4)*0.07;c=(big&&u>0.85)?1:0;}
+    P.push({ox,oy,c,head,k:big?rr(13,20):rr(11,18),ph:R()*TAU,x:0,y:0,px:0,py:0,svx:0,svy:0});
+  }
+  const PW=[[.62,-.46],[.62,.46],[-.6,-.46],[-.6,.46]],np=big?7:3;
+  PW.forEach(([fx,fy],i)=>{for(let j=0;j<np;j++)P.push({ox:fx+rr(-.06,.06),oy:fy+rr(-.05,.05),c:big?1:0,paw:i,head:0,k:big?rr(15,22):rr(13,20),ph:R()*TAU,x:0,y:0,px:0,py:0,svx:0,svy:0});});
+  return P;
+}
+const POST={stand:[1,1,.018],low:[1.06,.82,.01],crouch:[1.03,.74,.007],freeze:[1.03,.76,0],rest:[.92,1.32,.028],hold:[1,1.12,.018],dead:[.86,1.45,0]};
+const PAWPH=[0,Math.PI,Math.PI,0];
+class Agent{
+  constructor(kind,x,y,h=0){this.kind=kind;this.K=KINDS[kind];this.x=x;this.y=y;this.vx=0;this.vy=0;this.dvx=0;this.dvy=0;this.fvx=0;this.fvy=0;
+    this.h=h;this.ht=h;this.acc=6;this.tau=.2;this.posture='stand';this.tasks=[];this.state='graze';this.alertT=0;this.headDown=false;this.hdT=rr(.5,3);
+    this.sv=0;this.gp=R()*TAU;this.bw=0;this.hdB=0;this.sp=[];this.lut=null;this.kick=0;this.stot=0;this.jcd=0;this.jT=0;this.lockH=false;this.wph=R()*TAU;
+    this.parts=template(this.K);this.trail=null;this.isLion=!!this.K.big;this.snap();}
+  snap(){const P=POST[this.posture]||POST.stand;this.bx=P[0];this.by=P[1];this.bj=P[2];this.hdB=this.headDown?1:0;this.straight();this.buildLut();
+    for(const p of this.parts){const t=this.ptarget(p,0);p.x=p.px=t[0];p.y=p.py=t[1];p.svx=p.svy=0;}}
+  straight(){const c=Math.cos(this.h),s=Math.sin(this.h),n=Math.ceil(this.K.S*2.2/.3)+2;this.sp=[];for(let i=1;i<=n;i++)this.sp.push([this.x-c*i*.3,this.y-s*i*.3]);}
+  buildLut(){const L=this.K.S*2.1,st=.2,n=Math.ceil(L/st)+1,out=new Array(n);
+    let acc=0,seg=0,ax=this.x,ay=this.y;const pts=this.sp;
+    let bx=pts.length?pts[0][0]:ax-Math.cos(this.h),by=pts.length?pts[0][1]:ay-Math.sin(this.h);let sl=hyp(bx-ax,by-ay)||1e-6;
+    for(let k=0;k<n;k++){const d=k*st;
+      while(acc+sl<d&&seg<pts.length){acc+=sl;ax=bx;ay=by;seg++;if(seg<pts.length){bx=pts[seg][0];by=pts[seg][1];}else{const tx=(ax-bx)||Math.cos(this.h),ty=(ay-by)||Math.sin(this.h);const m=hyp(tx,ty)||1;bx=ax-tx/m*50;by=ay-ty/m*50;}sl=hyp(bx-ax,by-ay)||1e-6;}
+      const f=Math.min(1,(d-acc)/sl);out[k]=[ax+(bx-ax)*f,ay+(by-ay)*f,(ax-bx)/sl,(ay-by)/sl];}
+    this.lut=out;}
+  ptarget(p,t){
+    const S=this.K.S,sp=this.sv,m=Math.min(1,sp/3);
+    let u=p.ox*S*this.bx,v=p.oy*S*this.by;
+    if(p.head)u-=0.22*S*this.hdB;
+    if(p.paw!=null){u+=Math.sin(this.gp+PAWPH[p.paw])*0.24*S*m*(p.paw<2?1:.9);if(this.kick>0)u+=Math.sin(t*15+p.paw*1.9)*.32*S*this.kick;}
+    else{v+=Math.sin(this.gp*.5-p.ox*1.3)*0.035*S*m;if(this.kick>0)v+=Math.sin(t*11+p.ph)*.05*S*this.kick;}
+    if(sp>9&&p.paw==null)u*=1+0.05*Math.sin(this.gp);
+    if(this.stot>0){const q=Math.abs(Math.sin(this.gp*.5));u*=1+.1*q;v*=1+.3*q;}
+    const j=this.bj;u+=Math.sin(t*1.6+p.ph)*j*S;v+=Math.cos(t*1.3+p.ph)*j*S;
+    const c=Math.cos(this.h),s=Math.sin(this.h);
+    let x=this.x+u*c,y=this.y+u*s,tx=c,ty=s;
+    if(u<0&&this.bw>.01&&this.lut){const L=this.lut,fi=Math.min(L.length-1.001,-u/.2),i=fi|0,f=fi-i,a=L[i],b=L[i+1];
+      const qx=a[0]+(b[0]-a[0])*f,qy=a[1]+(b[1]-a[1])*f,qtx=a[2]+(b[2]-a[2])*f,qty=a[3]+(b[3]-a[3])*f;
+      const w=this.bw;x+=(qx-x)*w;y+=(qy-y)*w;tx+=(qtx-tx)*w;ty+=(qty-ty)*w;const n=hyp(tx,ty)||1;tx/=n;ty/=n;}
+    return[x-ty*v,y+tx*v];
+  }
+}
+
+/* ---------- world ---------- */
+const SPD={walk:5,stalk:5.2,trot:10,sprint:17};
+function newWorld(){return{t:0,tl:[],lions:[],prey:[],others:[],bushes:[],grass:[],water:[],ripples:[],paths:[],banks:[],char:[],dust:[],wind:null,measure:null,night:false,
+  capK:null,capN:0,endAt:0,done:false,log:[],tag:'',shade:[],focus:null,kl:null,result:null,labels:[]};}
+function at(S,t,fn){S.tl.push([t,fn]);S.tl.sort((a,b)=>a[0]-b[0]);}
+function say(S,k){S.capK=k;S.capN++;S.log.push(k+'@'+S.t.toFixed(1));}
+function finish(S,win,hold=6.5){if(S.result)return;S.result=win?'win':'lose';S.endAt=S.t+hold;say(S,win?'win':'lose');}
+function addLion(S,x,y,h=0,kind='lion'){const a=new Agent(kind,x,y,h);S.lions.push(a);return a;}
+function makeHerd(S,kind,n,cx,cy,rad,clampY){
+  const herd=[];herd.cx=cx;herd.cy=cy;
+  for(let i=0;i<n;i++){const a=R()*TAU,d=Math.sqrt(R())*rad;const k=Array.isArray(kind)?kind[i%kind.length]:kind;
+    let y=cy+Math.sin(a)*d*0.8;if(clampY)y=clamp(y,clampY[0],clampY[1]);
+    const p=new Agent(k,cx+Math.cos(a)*d,y,R()*TAU);p.ax=p.x-cx;p.ay=p.y-cy;p.herd=herd;p.ht=p.h;p.wph=R()*TAU;p.snap();herd.push(p);S.prey.push(p);}
+  return herd;
+}
+function addBushes(S,list,kind='bush'){for(const[x,y,r]of list){const dots=[];const n=kind==='tall'?Math.round(r*r*2.2):Math.round(r*r*1.1);
+  for(let i=0;i<n;i++){const a=R()*TAU,d=Math.pow(R(),0.6)*r;dots.push({x:x+Math.cos(a)*d,y:y+Math.sin(a)*d*0.85,s:rr(.5,1.5),ph:R()*TAU,l:rr(1.6,3.4)});}
+  S.bushes.push({x,y,r,kind,dots});}}
+function pip(poly,x,y){let c=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const[xi,yi]=poly[i],[xj,yj]=poly[j];if(((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c;}return c;}
+function inWater(S,x,y){for(const w of S.water)if(pip(w,x,y))return true;return false;}
+function grassField(S,dens=1){const n=Math.round(620*dens);for(let i=0;i<n;i++){const x=R()*W,y=R()*H;if(inWater(S,x,y))continue;S.grass.push({x,y,l:rr(1,2.4),ph:R()*TAU});}}
+function ripplesFor(S,n){for(let i=0;i<n;i++){for(let k=0;k<60;k++){const x=R()*W,y=R()*H;if(inWater(S,x,y)){S.ripples.push({x,y,l:rr(1,3),ph:R()*TAU});break;}}}}
+const busy=p=>p.state==='dead'||p.state==='grabbed';
+function nearest(list,a,f=()=>true){let b=null,bd=1e9;for(const p of list){if(busy(p)||!f(p))continue;const d=dist(p,a);if(d<bd){bd=d;b=p;}}return b;}
+function burst(S,p,n=40){for(let i=0;i<n;i++){const a=R()*TAU,s=rr(2,10);S.dust.push({x:p.x,y:p.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rr(.6,1.4),m:1.4});}}
+function band(a,b,w){const dx=b[0]-a[0],dy=b[1]-a[1],l=hyp(dx,dy),nx=-dy/l*w,ny=dx/l*w;return[[a[0]+nx,a[1]+ny],[b[0]+nx,b[1]+ny],[b[0]-nx,b[1]-ny],[a[0]-nx,a[1]-ny]];}
+
+/* ---------- lion tasks ---------- */
+const T={
+  go:(x,y,mode='walk')=>({t:'go',x,y,mode}),
+  wait:(d,posture='stand',face)=>({t:'wait',d,posture,face}),
+  until:(cond,posture='crouch',face)=>({t:'until',cond,posture,face}),
+  call:fn=>({t:'call',fn}),
+  approach:(get,d,mode='stalk')=>({t:'approach',get,d,mode}),
+  chase:(get,o)=>Object.assign({t:'chase',get,max:6,rest:3.5},o),
+  path:(pts,mode)=>pts.map(p=>({t:'go',x:p[0],y:p[1],mode,pass:true}))
+};
+function faceTo(a,f){const p=typeof f==='function'?f():f;if(p)a.ht=Math.atan2(p.y-a.y,p.x-a.x);}
+function steer(a,tx,ty,v,arrive=true){const dx=tx-a.x,dy=ty-a.y,d=hyp(dx,dy)||1e-6;const s=arrive?Math.min(v,d*1.6):v;a.dvx=dx/d*s;a.dvy=dy/d*s;return d;}
+function lionUpdate(S,L,dt){
+  L.dvx=L.dvy=0;L.acc=6;L.tau=.28;L.lockH=false;
+  let k=0;
+  while(L.tasks[0]&&L.tasks[0].t==='call'&&k++<20)L.tasks.shift().fn(S,L);
+  const t=L.tasks[0];
+  if(!t){if(L.posture==='low')L.posture='stand';return;}
+  switch(t.t){
+    case'go':{L.posture=t.mode==='stalk'?'low':'stand';L.acc=t.mode==='sprint'?14:t.mode==='trot'?8:5;
+      const d=steer(L,t.x,t.y,SPD[t.mode],!t.pass);if(d<(t.pass?3:1.2))L.tasks.shift();break;}
+    case'wait':{if(t.rem==null)t.rem=t.d;t.rem-=dt;L.posture=t.posture;if(t.face)faceTo(L,t.face);if(t.rem<=0)L.tasks.shift();break;}
+    case'until':{L.posture=t.posture;if(t.face)faceTo(L,t.face);if(t.cond(S,L))L.tasks.shift();break;}
+    case'approach':{const p=t.get();if(!p){L.tasks.shift();break;}L.posture='low';L.acc=5;if(dist(L,p)<=t.d){L.tasks.shift();break;}steer(L,p.x,p.y,SPD[t.mode],false);break;}
+    case'chase':{const p=t.get();t.el=(t.el||0)+dt;L.posture='stand';L.acc=14;L.tau=.12;
+      const d=dist(L,p);const tau=clamp(d/22,0,1.1);steer(L,p.x+p.vx*tau,p.y+p.vy*tau,SPD.sprint,false);
+      if(t.win&&d<4.2){L.tasks.shift();L.tasks.unshift({t:'kill',p,tm:0,ph:-1});p.state='grabbed';S.log.push('catch@'+S.t.toFixed(1));t.onCatch&&t.onCatch(S,L,p);}
+      else if(!t.win&&d<7.5&&p.jcd<=0&&p.state==='flee'&&p.delay<=0){const s=R()<.5?1:-1,a=Math.atan2(p.vy,p.vx)+s*1.3,v=Math.max(8,hyp(p.vx,p.vy));
+        p.vx=Math.cos(a)*v;p.vy=Math.sin(a)*v;p.fvx=p.vx;p.fvy=p.vy;p.jdir=[Math.cos(a),Math.sin(a)];p.jT=.55;p.jcd=1.1;}
+      else if(t.el>t.max){L.tasks.shift();L.tasks.unshift(T.wait(t.rest,'stand',p));S.log.push('miss@'+S.t.toFixed(1));t.onMiss&&t.onMiss(S,L,p);}
+      break;}
+    case'kill':{const p=t.p;t.tm+=dt;L.tau=.08;L.acc=40;L.lockH=true;const s2=p.K.S,hx=Math.cos(p.h),hy=Math.sin(p.h);let tx,ty,lab,fx=p.x,fy=p.y;
+      if(t.tm<.9){p.state='grabbed';tx=p.x-hx*s2*.5-hy*s2*.6;ty=p.y-hy*s2*.5+hx*s2*.6;lab='抱住';L.posture='stand';}
+      else if(t.tm<1.7){if(t.ph<1){t.ph=1;p.state='dead';p.posture='dead';p.ht=p.h+(R()<.5?.9:-.9);burst(S,p,30);}
+        tx=p.x-hx*s2*.3-hy*s2*1.0;ty=p.y-hy*s2*.3+hx*s2*1.0;lab='拖倒';L.posture='hold';}
+      else{if(t.ph<2){t.ph=2;}const nx=p.x+hx*s2*.85,ny=p.y+hy*s2*.85;tx=nx-hy*s2*1.3;ty=ny+hx*s2*1.3;fx=nx;fy=ny;
+        p.kick=Math.max(0,1-(t.tm-1.7)/3.2);lab=t.tm<2.8?'咬喉':'窒息';L.posture='hold';}
+      L.dvx=(tx-L.x)*5+p.vx;L.dvy=(ty-L.y)*5+p.vy;L.ht=Math.atan2(fy-L.y,fx-L.x);
+      if(S.focus===L||!S.kl||S.kl.p===p)S.kl={x:p.x,y:p.y,txt:lab,p};break;}
+  }
+}
+
+/* ---------- prey ---------- */
+function alarm(S,herd,threat,o={}){
+  const src=o.src||threat;
+  for(const p of herd){if(busy(p))continue;const d=dist(p,src);
+    p.state='flee';p.threat=threat;p.delay=(o.base||0)+d/32+rr(0,.25)+((p.hc&&p.hc.delay)||0);
+    p.vf=(p.hc&&p.hc.vmax)||p.K.vmax*rr(.88,1);p.bias=o.bias?o.bias(p):[0,0];p.alertT=1.4;p.headDown=false;p.calm=o.calm||75;
+    if(p.K.gz&&!p.hc)p.stot=rr(.5,1.1);}
+}
+function preyUpdate(S,p,dt){
+  p.dvx=p.dvy=0;p.acc=3;p.tau=.25;if(p.alertT>0)p.alertT-=dt;p.jcd-=dt;
+  switch(p.state){
+    case'graze':{const hd=p.herd;const tx=hd.cx+p.ax+Math.sin(S.t*.3+p.wph)*1.6,ty=hd.cy+p.ay+Math.cos(S.t*.27+p.wph)*1.2;
+      steer(p,tx,ty,.7);p.hdT-=dt;if(p.hdT<0){p.headDown=!p.headDown;p.hdT=p.headDown?rr(2,5):rr(.8,2);}
+      if(hyp(p.vx,p.vy)<.3&&R()<dt*.25)p.ht=p.h+rr(-.6,.6);break;}
+    case'alert':{p.headDown=false;if(p.threat)faceTo(p,p.threat);if(p.until&&S.t>p.until){p.state=p.route?'path':'graze';p.until=0;}break;}
+    case'flee':{if(p.delay>0){p.delay-=dt;p.headDown=false;faceTo(p,p.threat);break;}
+      const th=p.threat;let ax=p.x-th.x,ay=p.y-th.y;const d=hyp(ax,ay)||1;ax/=d;ay/=d;
+      let dx=ax+p.bias[0],dy=ay+p.bias[1];
+      if(p.K.gz){const w=Math.sin(S.t*2.4+p.wph)*.4,c=Math.cos(w),s=Math.sin(w);const nx=dx*c-dy*s;dy=dx*s+dy*c;dx=nx;if(p.stot>0)p.stot-=dt;}
+      let cx=0,cy=0,avx=0,avy=0,cn=0;
+      for(const q of S.prey){if(q===p||busy(q))continue;const ex=p.x-q.x,ey=p.y-q.y,e=hyp(ex,ey);
+        if(e<5&&e>0){dx+=ex/e*.6;dy+=ey/e*.6;}
+        if(p.K.herdy&&e<15&&q.state==='flee'){cx+=q.x;cy+=q.y;avx+=q.vx;avy+=q.vy;cn++;}}
+      if(cn){const sv=hyp(avx,avy)||1;dx+=avx/sv*.8;dy+=avy/sv*.8;cx/=cn;cy/=cn;const cd=hyp(cx-p.x,cy-p.y)||1;dx+=(cx-p.x)/cd*.3;dy+=(cy-p.y)/cd*.3;}
+      if(p.jT>0){p.jT-=dt;dx=p.jdir[0];dy=p.jdir[1];}
+      const n=hyp(dx,dy)||1;let v=p.vf*(p.stot>0?.6:1);
+      const chased=th.tasks&&th.tasks[0]&&th.tasks[0].t==='chase'&&th.tasks[0].get()===p;
+      if(d>p.calm&&!chased){v=0;p.state='alert';p.threat=th;p.until=0;}
+      p.dvx=dx/n*v;p.dvy=dy/n*v;p.acc=p.K.acc;p.tau=.14;break;}
+    case'grabbed':{p.dvx=p.vx*.3;p.dvy=p.vy*.3;p.acc=7;p.tau=.3;break;}
+    case'path':{p.s+=p.spd*dt;const q=pathAt(p.route,p.s);if(!q){p.state='still';break;}steer(p,q[0],q[1],p.spd*1.6,false);
+      if(hyp(q[0]-p.x,q[1]-p.y)<.6){p.dvx*=.6;p.dvy*=.6;}p.acc=4;break;}
+    case'walkTo':{const d=steer(p,p.tx,p.ty,p.spd,false);p.acc=4;if(d<2)p.state='still';break;}
+    case'still':{if(p.threat)faceTo(p,p.threat);break;}
+    case'dead':break;
+  }
+}
+function pathAt(route,s){if(s<0)return route[0].slice();let acc=0;
+  for(let i=0;i<route.length-1;i++){const a=route[i],b=route[i+1],l=hyp(b[0]-a[0],b[1]-a[1]);if(acc+l>=s){const f=(s-acc)/l;return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}acc+=l;}return null;}
+function integrate(S,a,dt){
+  if(a.state==='dead'){a.vx*=Math.pow(.02,dt);a.vy*=Math.pow(.02,dt);a.fvx=a.fvy=0;}
+  else{const ft=1-Math.exp(-dt/(a.tau||.2));a.fvx+=(a.dvx-a.fvx)*ft;a.fvy+=(a.dvy-a.fvy)*ft;
+    let ex=a.fvx-a.vx,ey=a.fvy-a.vy;const e=hyp(ex,ey),m=a.acc*dt;if(e>m){ex*=m/e;ey*=m/e;}a.vx+=ex;a.vy+=ey;}
+  a.x+=a.vx*dt;a.y+=a.vy*dt;const sp=hyp(a.vx,a.vy);a.sv=sp;
+  if(sp>.4&&a.state!=='dead'&&!a.lockH)a.ht=Math.atan2(a.vy,a.vx);
+  const dh=((a.ht-a.h+Math.PI)%TAU+TAU)%TAU-Math.PI,mt=(sp>5?5.5:2.4)*dt;a.h+=clamp(dh*(1-Math.exp(-6*dt)),-mt,mt);
+  const P=POST[a.posture]||POST.stand,fb=1-Math.exp(-5*dt);
+  a.bx+=(P[0]*(1+sp/50)-a.bx)*fb;a.by+=(P[1]-a.by)*fb;a.bj+=(P[2]*(sp>1?.4:1)-a.bj)*fb;a.hdB+=((a.headDown?1:0)-a.hdB)*(1-Math.exp(-4*dt));
+  if(sp>.15)a.gp+=TAU*clamp(.45+sp*.19,0,3.6)*dt*(a.stot>0?.6:1);
+  a.bw+=(clamp(sp/2,0,1)-a.bw)*(1-Math.exp(-2.5*dt));
+  if(sp<.25&&a.bw<.15)a.straight();
+  else if(!a.sp.length||hyp(a.sp[0][0]-a.x,a.sp[0][1]-a.y)>.3){a.sp.unshift([a.x,a.y]);const n=Math.ceil(a.K.S*2.2/.3)+4;if(a.sp.length>n)a.sp.length=n;}
+  if(sp>8&&R()<dt*sp*1.1)S.dust.push({x:a.x-Math.cos(a.h)*a.K.S,y:a.y-Math.sin(a.h)*a.K.S,vx:-a.vx*.08+rr(-1,1),vy:-a.vy*.08+rr(-1,1),life:rr(.7,1.3),m:1.3});
+  if(a.trail&&(!a.trail.length||hyp(a.trail[a.trail.length-1][0]-a.x,a.trail[a.trail.length-1][1]-a.y)>2.2))a.trail.push([a.x,a.y]);
+}
+function step(S,dt,parts=true){
+  S.t+=dt;
+  while(S.tl.length&&S.tl[0][0]<=S.t)S.tl.shift()[1](S);
+  for(const L of S.lions)lionUpdate(S,L,dt);
+  for(const p of S.prey)preyUpdate(S,p,dt);
+  for(const p of S.others)preyUpdate(S,p,dt);
+  const all=[...S.prey,...S.others,...S.lions];
+  for(const a of all)integrate(S,a,dt);
+  if(parts){for(const a of all){a.buildLut();for(const p of a.parts){const q=a.ptarget(p,S.t);p.px=p.x;p.py=p.y;const f=1-Math.exp(-p.k*dt);p.x+=(q[0]-p.x)*f;p.y+=(q[1]-p.y)*f;
+    const g=1-Math.exp(-10*dt);p.svx+=((p.x-p.px)/dt-p.svx)*g;p.svy+=((p.y-p.py)/dt-p.svy)*g;}}}
+  for(let i=S.dust.length-1;i>=0;i--){const d=S.dust[i];d.life-=dt;if(d.life<=0){S.dust.splice(i,1);continue;}d.x+=d.vx*dt;d.y+=d.vy*dt;d.vx*=Math.pow(.15,dt);d.vy*=Math.pow(.15,dt);}
+  if(S.endAt&&S.t>=S.endAt)S.done=true;
+}
+
+/* ---------- data ---------- */
+const COND=[
+  {k:'all',zh:'总体',p:.17,src:'表 58 · 单狮潜近，n=133'},
+  {k:'day',zh:'白天',p:.23,src:'表 55 · 瞪羚，白天，n=338'},
+  {k:'night',zh:'夜间',p:.29,src:'表 55 · 瞪羚，夜间，n=24'},
+  {k:'up',zh:'逆风',p:.185,src:'表 57 · 单狮逆风移动，n=27'},
+  {k:'down',zh:'顺风',p:.07,src:'表 57 · 单狮顺风移动，n=28'},
+  {k:'open',zh:'几乎无遮蔽',p:.07,src:'表 56 · 瞪羚，几乎无遮蔽，n=43'},
+  {k:'thicket',zh:'灌丛或高草',p:.26,src:'表 56 · 瞪羚，灌丛或高草，n=175'},
+  {k:'river',zh:'沿河灌丛',p:.49,src:'表 56 · 瞪羚，沿河灌丛，n=45'}
+];
+const BARS=[['chance','突发机会',61,'6.1%'],['group','群体潜近与追逐',30,'46.0%'],['ambush','伏击',19,'2.6%'],['drive','驱赶',18,'2.8%'],['stalk','单狮潜近',17,'22.3%'],['rush','单狮奔袭',8,'14.1%']];
+
+/* ---------- scenes ---------- */
+const condLine=S=>S.cond&&S.cond.k!=='all'?`在“${S.cond.zh}”条件下，书中成功率为 ${pct(S.p)}（${S.cond.src}）。`:'单狮潜近的成功率只有 17%。';
+const SCENES=[
+{ id:'stalk', zh:'潜近', en:'Stalking', p:.17, chip:'占 22.3% · 成功 17%', bar:'stalk', dur:40,
+  caps:{
+    spot:S=>['发现猎物。狮子狩猎几乎完全靠视觉定向，在开阔草原上常在两公里外就看见瞪羚。'+(S.cond&&S.cond.k!=='all'?`本次条件：${S.cond.zh}。`:''),'Spotting: sight first, then hearing, then smell.'],
+    sneak:['经典的猫科潜近：压低身体，从一处掩蔽滑到下一处，停下窥视，再前进。','Cover to cover, pausing to peer at the herd.'],
+    freeze:['一头瞪羚抬起头。母狮立刻僵住，有时一只爪子还悬在半空。','A gazelle looks up. She freezes mid-stride.'],
+    resume:['猎物重新低头吃草，她才继续前进。她专挑瞪羚低头或背对她的时刻。','Head down again, she moves on, timing each step to the herd.'],
+    lock:['锁定离她最近的一头，继续贴近。潜近的狮子发动突袭的平均距离约 30 米。','She picks the nearest gazelle and closes to about 30 m.'],
+    rush:['突袭！奔跑中的狮子带着冲量，能在猎物达到全速前追上它。惊逃从近处向远处传开。','The rush: momentum carries her in before the gazelle reaches full speed.'],
+    detect:['还没到突袭距离，一头瞪羚就盯住了她。警报在兽群里传开。','A gazelle spots her before she is close enough.'],
+    win:S=>['抱住、拖倒、咬喉。这一次她成功了。'+condLine(S),'Caught this time. Most stalks end differently.'],
+    lose:S=>['她冲了几十米就放弃。狮子耐力很差，全速跑几百米就气喘吁吁。'+condLine(S),'She gives up after a short dash. Lions tire within a few hundred metres.']},
+  notes:{stats:[['占全部狩猎','22.3%'],['成功率','17%'],['突袭距离','≈ 30 m']],
+    li:[['通常花不到 15 分钟，偶尔长达一小时。','p.241'],['趁猎物低头吃草或背对时前进；猎物一警觉就停，有时一只爪子悬在半空。','p.247'],
+      ['蜷伏的狮子有时对仅 15 米外的猎物都不发动；奔跑中的狮子有冲量，许多 50 米以上的潜近奔跑反而有利。','p.247'],['单狮逆风潜近瞪羚成功率 18.5%，顺风只有 7%，尽管狮子狩猎时根本不考虑风向（表 57）。','p.253']]},
+  setup(S,win){
+    const c=S.cond||COND[0];
+    S.wind={a:c.k==='down'?0.06:Math.PI*0.94};S.tag=c.k==='all'?'潜近过程已时间压缩':c.zh;
+    if(c.k==='night')S.night=true;
+    const bushPos=[[63,104,7],[99,82,8],[133,95,6.5],[150,46,6],[40,36,7],[212,118,8],[118,20,6]];
+    let hy=64;
+    if(c.k==='open'){grassField(S,.4);for(let i=0;i<500;i++)S.char.push([R()*W,R()*H,rr(.4,1.2)]);S.tag='几乎无遮蔽 · 烧过的草原';}
+    else if(c.k==='thicket'){addBushes(S,bushPos.map(b=>[b[0],b[1],b[2]+3]),'tall');addBushes(S,[[80,60,7],[165,112,8],[115,122,6],[200,30,7]],'tall');grassField(S,1.1);}
+    else if(c.k==='river'){S.water.push([[0,0],[240,0],[240,15],[200,19],[160,14],[110,18],[60,13],[0,17]]);hy=52;
+      addBushes(S,[[120,27,7],[150,25,8],[205,28,7],[232,26,6],[178,24,5]]);addBushes(S,bushPos.filter(b=>b[1]>40));grassField(S,1);ripplesFor(S,60);}
+    else{addBushes(S,bushPos);grassField(S,1);}
+    const herd=makeHerd(S,'gazelle',16,180,hy,20,[hy-16,hy+18]);
+    const L=addLion(S,40,111,-.2);S.focus=L;
+    const seq=[T.call(S=>say(S,'spot')),T.go(48,107,'walk'),T.wait(1.6,'stand',herd[0]),
+      T.call(S=>say(S,'sneak')),T.go(62,101,'stalk'),T.wait(1.1,'crouch',herd[0]),T.go(97,84,'stalk'),T.wait(.9,'crouch',herd[0]),T.go(112,86,'stalk'),
+      T.call((S,L)=>{const p=nearest(herd,L);p.state='alert';p.threat=L;p.until=S.t+2.6;p.alertT=2.6;say(S,'freeze');}),
+      T.wait(2.8,'freeze',herd[0]),T.call(S=>say(S,'resume')),T.go(131,96,'stalk'),T.wait(.8,'crouch',herd[0]),
+      T.call((S,L)=>{S.target=nearest(herd,L);S.measure=[L,S.target];say(S,'lock');})];
+    if(win)seq.push(T.approach(()=>S.target,30,'stalk'),T.wait(1.6,'crouch',()=>S.target),
+      T.call((S,L)=>{S.measure=null;say(S,'rush');S.target.hc={delay:.5,vmax:10.5};alarm(S,herd,L);}),
+      T.chase(()=>S.target,{win:true,max:8,onCatch:S=>finish(S,true)}));
+    else seq.push(T.approach(()=>S.target,44,'stalk'),
+      T.call((S,L)=>{const p=S.target;p.state='alert';p.threat=L;p.alertT=1.6;p.until=0;say(S,'detect');}),T.wait(.9,'freeze',()=>S.target),
+      T.call((S,L)=>{S.measure=null;S.target.hc={delay:0,vmax:15};alarm(S,herd,L,{base:-.3});}),
+      T.chase(()=>S.target,{win:false,max:2.8,onMiss:S=>finish(S,false,5)}));
+    L.tasks=seq;
+  }},
+{ id:'rush', zh:'单狮奔袭', en:'Rushing', p:.08, chip:'占 14.1% · 成功 8%', bar:'rush', dur:30,
+  caps:{
+    walk:['四头母狮带着幼崽沿路单列行走。','Lionesses and cubs walk single file along a track.'],
+    see:['领头的母狮看见约 125 米外，河岸斜坡上有一群瞪羚正走向水洼。','The leader spots gazelles on the slope down to a waterhole, 125 m away.'],
+    run:['她没有潜近，直接朝它们跑去。其余狮子停下旁观：单狮狩猎时，72% 的情况下同伴在场却不参与。','No stalk: she simply runs at them. The others stop and watch.'],
+    crest:['斜坡上的瞪羚四散，但水边几头直到她冲上堤岸顶端才看见她。','Most scatter, but a few at the water do not see her until she tops the bank.'],
+    win:['她抓住了一头公羊。但单狮奔袭的成功率只有 8%，是各方式中最低的。','She takes a buck. Yet lone rushes succeed only 8% of the time, the lowest of any method.'],
+    lose:['瞪羚早早看见她，全部逃散，她停在堤岸上。单狮奔袭的成功率只有 8%，是各方式中最低的。','The gazelles saw her coming. Lone rushes succeed only 8% of the time.']},
+  notes:{stats:[['占全部狩猎','14.1%'],['成功率','8%'],['起跑距离','50–200 m']],
+    li:[['奔袭与驱赶类似，只是开始时猎物还没看见狮子。','p.241'],['狮子常在 50–200 米外就开跑，尤其当突然出现有利局面时。','p.245'],
+      ['许多奔袭只是小跑 60–80 米，给人的印象是知道得手的可能不大，但总有机会碰上走神的动物。','p.245–246'],['单狮狩猎时，72% 的情况下有其他狮子在场却不参与（表 53）。','p.242']]},
+  setup(S,win){
+    S.paths.push([[-10,32],[60,30],[130,34],[250,28]]);
+    const wh=[];for(let i=0;i<24;i++){const a=i/24*TAU;wh.push([190+Math.cos(a)*32,124+Math.sin(a)*14]);}S.water.push(wh);
+    S.banks.push({pts:[[138,108],[156,99],[178,95],[200,95],[222,98],[240,104]],side:1});
+    grassField(S,1);ripplesFor(S,40);addBushes(S,[[40,92,7],[92,122,6],[18,62,5],[120,70,5]]);
+    const herd=makeHerd(S,'gazelle',20,186,78,17,[64,91]);
+    const edge=[];for(const[x,y]of[[176,104],[190,106],[203,104]]){const g=new Agent('gazelle',x,y,Math.PI/2+rr(-.5,.5));g.herd={cx:x,cy:y};g.ax=0;g.ay=0;g.wph=R()*TAU;g.headDown=true;g.snap();edge.push(g);S.prey.push(g);}
+    const ls=['lion','lion','cub','lion','cub','lion','cub'].map((k,i)=>{const l=addLion(S,52-i*9,31,0,k);l.tasks=[T.go(260,30,'walk')];return l;});
+    const L=ls[0];S.focus=L;
+    at(S,0,S=>say(S,'walk'));
+    at(S,4.5,S=>{say(S,'see');ls.forEach(l=>l.tasks=[T.wait(40,'stand',herd[0])]);});
+    at(S,7.5,S=>{say(S,'run');alarm(S,herd,L,{base:.7,calm:70,bias:()=>[.9,-.25]});
+      if(!win)alarm(S,edge,L,{base:1.2,calm:70,bias:()=>[.9,.3]});
+      L.tasks=[T.go(130,62,'trot'),T.go(176,90,'sprint'),
+        T.call(S=>{if(win){say(S,'crest');const tg=nearest(edge,L);tg.hc={delay:.35,vmax:9};alarm(S,edge,L,{calm:70,bias:()=>[1,.25]});S.target=tg;
+          L.tasks.unshift(T.chase(()=>S.target,{win:true,max:6,onCatch:S=>finish(S,true)}));}else finish(S,false,5);}),
+        T.wait(40,'stand',herd[0])];});
+  }},
+{ id:'drive', zh:'驱赶', en:'Driving', p:.18, chip:'占 2.8% · 成功 18%', bar:'drive', dur:30,
+  caps:{
+    intro:['驱赶：狮子不加隐蔽，直接朝已经察觉危险的兽群走去。这种方式只见于追逐瞪羚。','Driving: lions walk openly at prey that has already seen them.'],
+    trap:['约 20 头瞪羚走进了两条溪流交汇处的死胡同。两头母狮从 70 米外走过去。','About 20 gazelles have wandered into the dead end where two streams meet.'],
+    back:['瞪羚没有过溪，反而朝狮子跑回来。一头母狮突袭扑空，又追另一头，还是落空。','Instead of crossing, they run back past the lions. One lioness misses, then misses again.'],
+    lag:['两头公羊落在后面，似乎拿不定逃生路线。另一头母狮盯上了其中一头。','Two bucks lag behind, unsure which way to run.'],
+    win:['公羊钻进芦苇丛，母狮在那里抓住了它。驱赶的成功率约 18%。','The buck bolts into a reed bed, and she catches it there. Drives succeed about 18% of the time.'],
+    lose:['公羊涉过溪流逃走了。驱赶的成功率约 18%。','The buck splashes across the stream and escapes.']},
+  notes:{stats:[['占全部狩猎','2.8%'],['成功率','18%'],['猎物','只见于瞪羚']],
+    li:[['驱赶是由不加隐蔽的狮子朝已察觉危险的动物走去或跑去。','p.241'],['狮子像是要把猎物驱散，或赶进密林，在混乱中抓一头。','p.244'],
+      ['约 20 头瞪羚走进两条溪流交汇处的死胡同，两头母狮从 70 米外走过去；瞪羚反而朝狮子跑回来，两次扑空后，一头落后的公羊在芦苇床里被抓住。','p.244–245'],['驱赶和伏击中都没有雄狮参与（表 54）。','p.242']]},
+  setup(S,win){
+    S.water.push(band([104,-6],[216,68],3.2),band([104,146],[216,72],3.2),[[212,64],[242,63],[242,77],[212,76]]);
+    grassField(S,1);ripplesFor(S,50);
+    addBushes(S,[[190,84,7]],'tall');addBushes(S,[[40,30,6],[30,112,7],[70,128,5]]);
+    S.labels.push([196,94,'芦苇']);
+    const herd=makeHerd(S,'gazelle',20,168,70,13);
+    const A=addLion(S,64,58,0),B=addLion(S,64,84,0);S.focus=A;
+    const bucks=[...herd].sort((a,b)=>b.x-a.x).slice(0,2);
+    at(S,0,S=>{say(S,'intro');A.tasks=[T.go(112,60,'walk'),T.wait(40,'stand',herd[0])];B.tasks=[T.go(112,82,'walk'),T.go(130,86,'walk'),T.wait(40,'stand',bucks[0])];});
+    at(S,4.5,S=>{say(S,'trap');herd.forEach(p=>{p.state='alert';p.threat=A;p.alertT=2;p.until=0;});});
+    at(S,10,S=>{say(S,'back');
+      alarm(S,herd.filter(p=>!bucks.includes(p)),{x:236,y:70},{src:A,calm:160,bias:p=>[-1.5,(p.y<70?-1:1)*.9]});
+      A.tasks=[T.call(S=>{S.t1=nearest(herd,A,p=>!bucks.includes(p));}),T.chase(()=>S.t1,{win:false,max:1.4,rest:.2}),
+        T.call(S=>{S.t2=nearest(herd,A,p=>!bucks.includes(p)&&p!==S.t1);}),T.chase(()=>S.t2,{win:false,max:1.4,rest:40})];});
+    at(S,14,S=>{say(S,'lag');S.focus=B;const bk=bucks[0];S.target=bk;bk.hc={delay:.2,vmax:win?6:12};
+      alarm(S,[bk],B,{calm:200,bias:()=>win?[.3,1.6]:[.2,2.2]});
+      alarm(S,[bucks[1]],B,{base:.4,calm:120,bias:()=>[-1.5,-1]});
+      B.tasks=[T.chase(()=>S.target,win?{win:true,max:7,onCatch:S=>finish(S,true)}:{win:false,max:2.6,onMiss:S=>finish(S,false,5)})];});
+  }},
+{ id:'ambush', zh:'伏击', en:'Ambush', p:.19, chip:'占 2.6% · 成功 19%', bar:'ambush', dur:32,
+  caps:{
+    hide:['伏击并不常见，只占狩猎的 2.6%。母狮藏进河边密林，紧挨着通往水边的小径。','Ambush is rare: 2.6% of hunts. She lies in riverine thicket beside a trail.'],
+    file:['斑马单列走向水边。从水边往外通常只有狭窄的小径，动物受惊就沿小径逃。','Zebra file down to drink. Near water, escape routes are narrow trails.'],
+    pass:['她一动不动，放过最先经过的几匹。','She stays still and lets the first animals pass.'],
+    spring:['猎物近到十米左右，她从侧面猛扑。','At about 10 m, she launches from the side.'],
+    spotted:['一匹斑马在十几米外看见了她，掉头就跑。','A zebra spots her at fifteen metres and wheels away.'],
+    win:['得手。伏击的成功率约 19%，与潜近相当。狮子常守候猎物走近，这样能选最合适的伏击地点。','Taken. Ambush succeeds about 19% of the time, close to stalking.'],
+    lose:['她扑了个空。伏击的成功率约 19%，与潜近相当。','A miss. Ambush succeeds about 19% of the time.']},
+  notes:{stats:[['占全部狩猎','2.6%'],['成功率','19%'],['雄狮参与','未见']],
+    li:[['只有猎物进入藏身处 60 米内且狮子朝向它，夏勒才记为一次伏击。','p.242'],
+      ['攻击不一定针对最先出现的动物：狮子可能放过一群，再从后面猛扑进去。','p.244'],
+      ['沿河灌丛是白天最易得手的生境：瞪羚 49%，角马和斑马 42%（表 56）。','p.253'],
+      ['狮子常守候猎物走近，而不是潜近静止的动物，大概因为这样能选最合适的伏击地点。','p.257']]},
+  setup(S,win){
+    S.water.push([[214,0],[240,0],[240,140],[208,140],[204,112],[212,84],[206,58],[216,30]]);
+    grassField(S,1);ripplesFor(S,70);
+    const route=[[-30,18],[40,34],[100,52],[150,66],[178,72],[204,74]];S.paths.push(route);
+    addBushes(S,[[172,40,10],[190,52,8],[158,50,7],[196,28,8]]);
+    addBushes(S,[[170,96,9],[188,98,9],[156,90,6.5],[182,118,9],[198,84,6]]);
+    const L=addLion(S,167,82,-Math.PI/2);L.posture='crouch';L.snap();S.focus=L;
+    const herd=[];herd.cx=0;herd.cy=0;
+    for(let i=0;i<8;i++){const p=new Agent('zebra',0,0,.25);p.state='path';p.route=route;p.s=128-i*11;p.spd=4.6;p.herd=herd;const q=pathAt(route,p.s);p.x=q[0];p.y=q[1];p.snap();herd.push(p);S.prey.push(p);}
+    const tgt=herd[4];
+    at(S,0,S=>say(S,'hide'));at(S,5.5,S=>say(S,'file'));
+    const seq=[T.until(()=>herd[0].x>164,'crouch',()=>herd[0]),T.call(S=>say(S,'pass'))];
+    if(win)seq.push(T.until(()=>dist(tgt,L)<12.5&&tgt.x>156,'crouch',()=>tgt),
+      T.call((S,L)=>{say(S,'spring');tgt.hc={delay:.45,vmax:7};alarm(S,herd,L,{calm:70,bias:p=>p.x>L.x?[.6,-.9]:[-.6,-.6]});}),
+      T.chase(()=>tgt,{win:true,max:5,onCatch:S=>finish(S,true)}));
+    else seq.push(T.until(()=>dist(tgt,L)<17&&tgt.x>148,'crouch',()=>tgt),
+      T.call((S,L)=>{say(S,'spotted');tgt.state='alert';tgt.threat=L;tgt.alertT=2;tgt.until=0;}),T.wait(.6,'crouch',()=>tgt),
+      T.call((S,L)=>{tgt.hc={delay:0,vmax:13};alarm(S,herd,L,{base:-.2,calm:70,bias:p=>p.x>L.x?[.6,-.9]:[-.8,-.5]});}),
+      T.chase(()=>tgt,{win:false,max:2,onMiss:S=>finish(S,false,5)}));
+    L.tasks=seq;
+  }},
+{ id:'fan', zh:'扇形散开', en:'Fanning out', p:.30, chip:'群体 · 成功 30%', bar:'group', dur:32,
+  caps:{
+    spot:['五头母狮发现一群角马和斑马。','Five lionesses spot wildebeest and zebra.'],
+    fan:['扇形散开，以宽广的正面接近，有时铺开 200 米的地带。','They fan out on a broad front, sometimes 200 m wide.'],
+    crescent:['两翼快速前移，中间的停下或缓慢前进，阵形成了一道新月。','The wings hurry forward while the centre slows: a crescent.'],
+    bolt:['中间的狮子暴露，兽群惊逃。一部分偏向一侧，朝伏在高草里的侧翼跑去。','The herd bolts from the centre, and some veer toward a hidden wing.'],
+    boltAway:['中间的狮子暴露，兽群惊逃，却整群朝远离两翼的方向跑去。','The herd bolts, but straight away from both wings.'],
+    win:['侧翼母狮瞄准移动目标的前方，截住了它。群体狩猎成功率约 30%，大约是单狮的两倍。','The wing aims ahead of the moving target. Group hunts succeed about 30% of the time.'],
+    lose:['侧翼追不上，狩猎落空。即使是群体狩猎，也有约七成以失败告终。','The wing cannot close the gap. Even group hunts fail about 70% of the time.']},
+  notes:{stats:[['群体成功率','30%'],['正面宽度','可达 200 m'],['3 头以上猎角马斑马','51%']],
+    li:[['几头狮子发现猎物时，典型动作是扇形散开：两翼快速朝选定方向走，中间的停下或缓慢前进。','p.249'],
+      ['铺得越开，接触猎物的机会越大：猎物四散时，一头或几头可能跑向藏着的母狮，或偏向一侧撞上侧翼。','p.249'],
+      ['从侧面跑向逃窜的动物时，母狮瞄准的是移动目标的前方。','p.250'],['单狮成功率 15%，两头 29%，4–5 头 32%，6 头以上 33%：狮群更成功，但并非越多越好（表 59）。','p.254']]},
+  setup(S,win){
+    grassField(S,1);addBushes(S,[[170,16,9],[166,126,9]],'tall');addBushes(S,[[60,24,6],[230,96,6]]);
+    const herd=makeHerd(S,['wildebeest','wildebeest','zebra'],22,196,70,24);
+    const L=[0,1,2,3,4].map(i=>addLion(S,16+(i%2)*4,62+i*4,0));S.focus=L[2];
+    at(S,0,S=>{say(S,'spot');L.forEach((l,i)=>l.tasks=[T.go(38,64+i*3.5,'walk'),T.wait(9,'stand',herd[0])]);});
+    at(S,3.8,S=>{say(S,'fan');const tg=[[88,20],[76,44],[64,70],[76,96],[88,120]];L.forEach((l,i)=>l.tasks=[T.go(tg[i][0],tg[i][1],i%4===0?'trot':'walk'),T.wait(20,'stand',herd[0])]);});
+    at(S,11,S=>{say(S,'crescent');const tg=[[164,18],[116,40],[100,70],[116,100],[160,122]];
+      L.forEach((l,i)=>l.tasks=[T.go(tg[i][0],tg[i][1],(i===0||i===4)?'trot':'stalk'),T.wait(30,(i===0||i===4)?'crouch':'low',herd[0])]);});
+    at(S,20.5,S=>{const w=L[0];S.focus=w;
+      if(win){say(S,'bolt');S.target=nearest(herd,w,p=>p.y<70);S.target.hc={delay:.1,vmax:9};alarm(S,herd,L[2],{bias:p=>p.y<72?[-.35,-1.5]:[.7,.35],calm:95});}
+      else{say(S,'boltAway');alarm(S,herd,L[2],{bias:()=>[1,.2],calm:95});S.target=nearest(herd,w);S.target.hc={delay:0,vmax:13};}
+      w.tasks=[T.wait(.7,'crouch',()=>S.target),T.chase(()=>S.target,win?{win:true,max:6,onCatch:S=>finish(S,true)}:{win:false,max:2.6,onMiss:S=>finish(S,false,5)})];
+      L[1].tasks=[T.go(140,30,'trot'),T.wait(30,'stand',()=>S.target)];L[2].tasks=[T.go(130,68,'trot'),T.wait(30,'stand',()=>S.target)];
+      L[3].tasks=[T.go(140,96,'trot'),T.wait(30,'stand',()=>S.target)];});
+  }},
+{ id:'encircle', zh:'包抄合围', en:'Encircling', p:.30, chip:'群体 · 记录 29 次', bar:'group', dur:44,
+  caps:{
+    night:['夜里，三头母狮一起潜近一群角马。','Night: three lionesses stalk a wildebeest herd together.'],
+    wait:['两头停下蜷伏，像在预料猎物会朝它们的方向逃来。','Two crouch and wait, as if expecting the prey to come their way.'],
+    circle:['第三头远远绕到兽群另一侧。虚线是她的路线，如同夏勒书中的图 42。','The third circles far around the herd; the dotted line traces her route, as in Fig. 42.'],
+    drive:['她从背后现身，把兽群赶向等候的同伴。整个过程不用声音，也不用面部表情，只靠观察彼此的姿态。','She drives the herd toward her partners. No calls, no expressions: only posture.'],
+    early:['一头等候的母狮沉不住气，在同伴还没就位时就突袭了，就像图 42 中的 E。','One waiting lioness charges before the circle is closed, as in Fig. 42 E.'],
+    win:['合围得手。夜间群体猎角马和斑马的成功率为 42%，白天只有 27%。','It works. Night group hunts of wildebeest and zebra: 42% success, against 27% by day.'],
+    lose:['兽群从没合拢的缺口逃走，绕行白费了。夏勒记录的 29 次包抄并非次次成功。','The herd escapes through the open side. Not every encirclement works.']},
+  notes:{stats:[['观察到包抄','29 次'],['夜间群体成功率','42%'],['白天','27%']],
+    li:[['母狮包围猎物，有时远远绕到一侧；包抄时其他狮子等待，像在预料猎物会朝它们的方向逃来。','p.250–251'],
+      ['图 42 的五例中，A、B、D 包围成功；C 中兽群在潜近完成前走掉；E 中一头母狮在另两头还没完全就位就突袭了。','p.251'],
+      ['狮子仅靠观察彼此的姿态和动作来整合行动，不用声音，也不用面部表情，夜间本来也用不上。','p.251'],
+      ['总体上夜间狩猎成功率 33%，白天 21%（表 55）。夏勒的观察多在明月之夜，无月之夜差距可能更大。','p.253']]},
+  setup(S,win){
+    S.night=true;S.tag='夜 · 明月';grassField(S,1);
+    addBushes(S,[[96,40,6],[96,104,6],[40,120,6],[200,126,7]]);
+    const herd=makeHerd(S,'wildebeest',14,160,72,17);
+    const A=addLion(S,18,64,0),B=addLion(S,14,74,0),C=addLion(S,18,84,0);S.focus=A;
+    at(S,0,S=>{say(S,'night');A.tasks=[T.go(62,62,'stalk')];B.tasks=[T.go(60,72,'stalk')];C.tasks=[T.go(62,84,'stalk')];});
+    const ready=L=>()=>{const p=nearest(herd,L);return p&&p.state==='flee'&&p.delay<=0&&dist(p,L)<19;};
+    at(S,8.5,S=>{say(S,'wait');
+      B.tasks=[T.go(92,48,'stalk'),T.until(ready(B),'crouch',herd[0]),T.chase(()=>S.target,{win:true,max:6,onCatch:S=>finish(S,true)})];
+      C.tasks=[T.go(92,98,'stalk'),T.until(ready(C),'crouch',herd[0]),T.call((S,L)=>{L._t=nearest(herd,L);}),T.chase(()=>C._t,{win:false,max:2.2})];
+      A.trail=[[A.x,A.y]];A.tasks=[...T.path([[86,30],[124,12],[176,10],[206,26]],'trot'),T.go(214,66,'trot'),T.wait(.9,'stand',herd[0]),
+        T.call(S=>{say(S,'drive');S.focus=B;const tgt=nearest(herd,B);tgt.hc={delay:.15,vmax:9.5};S.target=tgt;alarm(S,herd,A,{bias:p=>[-1.3,(72-p.y)*.012],calm:110});}),
+        T.go(176,72,'trot'),T.wait(30,'stand',herd[0])];});
+    at(S,11.5,S=>say(S,'circle'));
+    if(!win)at(S,17,S=>{say(S,'early');S.focus=C;A.tasks=[T.wait(40,'stand',herd[0])];B.tasks=[T.wait(40,'stand',herd[0])];
+      const tg=nearest(herd,C);tg.hc={delay:0,vmax:13};alarm(S,herd,C,{bias:()=>[.6,-.5],calm:90});
+      C.tasks=[T.chase(()=>tg,{win:false,max:2.6,onMiss:S=>finish(S,false,5)})];});
+  }},
+{ id:'chance', zh:'突发机会', en:'Opportunism', p:.61, chip:'占 6.1% · 成功 61%', bar:'chance', dur:26,
+  caps:{
+    rest:['正午，狮群在树荫下休息。','Midday: the pride rests in the shade.'],
+    pass:['一头筋疲力尽的瞪羚公羊小跑经过，身后紧跟着一头鬣狗和一头豺。','An exhausted gazelle buck trots past, a hyena and a jackal on its heels.'],
+    go:['一头母狮起身追上去。','A lioness rises and runs it down.'],
+    win:['一掌拍倒，用双爪抓住。突发机会只占狩猎的 6.1%，成功率却高达 61%。鬣狗只能在一旁等着。','Windfalls are only 6.1% of hunts but succeed 61% of the time.'],
+    lose:['公羊急转躲开，她追了几步就放弃。即使是送上门的机会，也有约四成落空。','The buck jinks clear and she lets it go. Even windfalls fail about 40% of the time.']},
+  notes:{stats:[['占全部狩猎','6.1%'],['成功率','61%'],['雄狮','反应迅速']],
+    li:[['一头筋疲力尽的成年瞪羚公羊从一群狮子身边小跑经过，身后紧跟着一头鬣狗和一头豺；一头母狮追上去，拍了一掌，用双爪抓住它。','p.243'],
+      ['送上门来的机会还有：蜷伏的幼兽、病兽踉跄闯进休息的狮群，狮子都会立刻抓住。','p.241'],
+      ['狮子偶然惊起 17 头蜷伏的汤氏瞪羚幼兽，在 150 米以内抓住了其中 10 头。','p.243'],
+      ['雄狮很少主动狩猎，但对突发机会反应迅速：突发狩猎中雄狮占 24%，潜近与追逐中只占 3%（表 54）。','p.242']]},
+  setup(S,win){
+    grassField(S,1);S.shade.push([100,96,22]);addBushes(S,[[40,30,6],[200,124,7],[60,124,5]]);
+    const ls=[[90,98,.4,'lion'],[103,92,-2.6,'lionM'],[112,102,2.2,'lion'],[96,108,-.6,'lion']].map(([x,y,h,k])=>{const l=addLion(S,x,y,h,k);l.posture='rest';l.snap();return l;});
+    const g=new Agent('gazelle',236,40,Math.PI-.3);g.state='walkTo';g.tx=-30;g.ty=100;g.spd=8;g.herd=[];S.prey.push(g);
+    const hy=new Agent('hyena',254,35,Math.PI-.3),ja=new Agent('jackal',268,31,Math.PI-.3);
+    for(const a of[hy,ja]){a.state='walkTo';a.tx=-30;a.ty=100;a.spd=8;S.others.push(a);}
+    ls.forEach(l=>l.tasks=[T.until(()=>false,'rest')]);
+    const L=ls[2];S.focus=L;
+    at(S,0,S=>say(S,'rest'));at(S,3,S=>say(S,'pass'));
+    L.tasks=[T.until(()=>dist(g,L)<34,'rest'),T.call(S=>{say(S,'go');g.hc={delay:.6,vmax:win?7.5:12};alarm(S,[g],L,{calm:200});ls[1].tasks=[T.wait(30,'stand',g)];}),
+      T.chase(()=>g,win?{win:true,max:6,onCatch:S=>{finish(S,true);hy.state='walkTo';hy.tx=g.x+22;hy.ty=g.y-26;hy.spd=4;hy.threat=L;ja.state='walkTo';ja.tx=g.x+34;ja.ty=g.y-14;ja.spd=4;ja.threat=L;}}
+        :{win:false,max:2,onMiss:S=>finish(S,false,5)})];
+  }}
+];
+
+/* ---------- side view ---------- */
+const SIDE_ZH={stand:'站立',walk:'行走',low:'潜行',crouch:'蜷伏',freeze:'僵住',sprint:'冲刺',rest:'卧息',hold:'扑咬'};
+const SIDE_EN={stand:'standing',walk:'walking',low:'stalking',crouch:'crouched',freeze:'frozen',sprint:'sprinting',rest:'resting',hold:'gripping'};
+function sidePost(L){if(!L)return'stand';const t=L.tasks[0];if(t&&t.t==='kill')return'hold';if(L.sv>8.5)return'sprint';
+  if(L.posture==='low')return L.sv>.4?'low':'crouch';if(L.posture==='stand')return L.sv>.5?'walk':'stand';return L.posture;}
+function sideKeys(post,gp){
+  const sw=(base,ph,a,l)=>[base+Math.sin(gp+ph)*a,Math.max(0,Math.cos(gp+ph))*l];
+  switch(post){
+    case'walk':return{sh:[.32,.6+.012*Math.sin(2*gp)],hip:[-.42,.58],head:[.67,.68],tb:[-.5,.56],tm:[-.78,.36],tt:[-.92,.32],paws:[sw(.31,0,.12,.06),sw(.31,Math.PI,.12,.06),sw(-.43,Math.PI,.12,.06),sw(-.43,0,.12,.06)]};
+    case'low':return{sh:[.33,.47],hip:[-.42,.5],head:[.71,.42],tb:[-.5,.48],tm:[-.78,.26],tt:[-.96,.2],paws:[sw(.36,0,.09,.04),sw(.36,Math.PI,.09,.04),sw(-.4,Math.PI,.09,.04),sw(-.4,0,.09,.04)]};
+    case'crouch':return{sh:[.3,.3],hip:[-.42,.3],head:[.67,.36],tb:[-.5,.28],tm:[-.8,.08],tt:[-.98,.05],paws:[[.52,0],[.46,0],[-.18,0],[-.24,0]]};
+    case'freeze':return{sh:[.33,.48],hip:[-.42,.5],head:[.71,.44],tb:[-.5,.48],tm:[-.78,.28],tt:[-.96,.22],paws:[[.44,.17],[.32,0],[-.4,0],[-.46,0]]};
+    case'sprint':{const b=Math.sin(gp);const f=(ph,base,amp,lift)=>[base+amp*Math.sin(gp+ph),Math.max(0,Math.cos(gp+ph))*lift];
+      return{sh:[.37+.06*b,.53+.03*Math.abs(Math.cos(gp))],hip:[-.38-.06*b,.52],head:[.83+.05*b,.57],tb:[-.46,.52],tm:[-.76,.5],tt:[-1.0,.46],
+        paws:[f(0,.42,.4,.18),f(.5,.42,.4,.18),f(Math.PI,-.36,.4,.16),f(Math.PI+.5,-.36,.4,.16)]};}
+    case'rest':return{sh:[.28,.22],hip:[-.4,.24],head:[.6,.44],tb:[-.48,.2],tm:[-.75,.05],tt:[-.95,.04],paws:[[.66,0],[.6,0],[-.06,.02],[-.12,0]]};
+    case'hold':return{sh:[.32,.34],hip:[-.4,.38],head:[.74,.2],tb:[-.48,.36],tm:[-.78,.2],tt:[-.95,.14],paws:[[.62,.02],[.52,0],[-.2,0],[-.28,0]]};
+    default:return{sh:[.32,.6],hip:[-.42,.58],head:[.66,.7],tb:[-.5,.56],tm:[-.76,.34],tt:[-.9,.28],paws:[[.34,0],[.28,0],[-.4,0],[-.46,0]]};
+  }
+}
+function makeSideParts(){const r=mulb(11),P=[];const add=(o)=>{o.x=0;o.y=0;P.push(o);};
+  for(let i=0;i<190;i++)add({s:'t',u:r(),v:Math.sqrt(r())*(r()<.5?-1:1)});for(let i=0;i<28;i++)add({s:'n',u:r(),v:r()*2-1});
+  for(let i=0;i<52;i++)add({s:'h',a:r()*TAU,r:Math.sqrt(r())});for(let l=0;l<4;l++)for(let i=0;i<24;i++)add({s:'l',leg:l,u:r(),v:r()*2-1});
+  for(let i=0;i<26;i++)add({s:'tl',u:r(),v:r()*2-1});for(let i=0;i<10;i++)add({s:'tt',a:r()*TAU,r:Math.sqrt(r())});return P;}
+const lerp2=(a,b,u)=>[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u];
+function sidePos(p,K){
+  switch(p.s){
+    case't':{const q=lerp2(K.hip,K.sh,p.u);const th=.15*(1-.3*Math.pow(2*p.u-1,2))+(p.u>.6?.02:0);return[q[0],q[1]+p.v*th-(p.v<0?.02:0)];}
+    case'n':{const a=[K.sh[0]+.04,K.sh[1]+.06];const q=lerp2(a,K.head,p.u);return[q[0],q[1]+p.v*.07];}
+    case'h':{const c=Math.cos(p.a);return[K.head[0]+c*p.r*.1+(c>0?c*p.r*.06:0),K.head[1]+Math.sin(p.a)*p.r*.085];}
+    case'l':{const front=p.leg<2;const root=front?[K.sh[0]-.03,K.sh[1]-.08]:[K.hip[0]+.03,K.hip[1]-.06];const paw=K.paws[p.leg];
+      const m=lerp2(root,paw,.5);m[0]+=front?.03:-.07;const u=p.u,a=(1-u)*(1-u),b=2*u*(1-u),c=u*u;
+      return[a*root[0]+b*m[0]+c*paw[0]+p.v*.035*(1-.4*u),a*root[1]+b*m[1]+c*paw[1]];}
+    case'tl':{const u=p.u,a=(1-u)*(1-u),b=2*u*(1-u),c=u*u;return[a*K.tb[0]+b*K.tm[0]+c*K.tt[0],a*K.tb[1]+b*K.tm[1]+c*K.tt[1]+p.v*.012];}
+    case'tt':return[K.tt[0]+Math.cos(p.a)*p.r*.03,K.tt[1]+Math.sin(p.a)*p.r*.03];
+  }
+}
+function sideUpdate(S,dt){if(!S.side)S.side={parts:makeSideParts(),init:false};const L=S.focus;const post=sidePost(L);S.side.post=post;
+  const K=sideKeys(post,L?L.gp:0);const f=1-Math.exp(-(post==='sprint'?22:10)*dt);
+  for(const p of S.side.parts){const q=sidePos(p,K);if(!S.side.init){p.x=q[0];p.y=q[1];}else{p.x+=(q[0]-p.x)*f;p.y+=(q[1]-p.y)*f;}}S.side.init=true;}
+function drawSide(S,g,r,big=false){
+  g.save();g.beginPath();g.rect(r.x,r.y,r.w,r.h);g.clip();g.fillStyle=C.paper;g.fillRect(r.x,r.y,r.w,r.h);
+  const s=r.h*.6,ox=r.x+r.w*.52,gy=r.y+r.h*.84;
+  g.strokeStyle=C.rule;g.lineWidth=Math.max(1,r.h*.006);g.beginPath();g.moveTo(r.x+r.w*.06,gy);g.lineTo(r.x+r.w*.94,gy);g.stroke();
+  g.strokeStyle=C.grass;g.beginPath();for(let i=0;i<26;i++){const x=r.x+r.w*(.06+i*.034),h=r.h*(.03+((i*37)%7)*.006);g.moveTo(x,gy);g.lineTo(x+h*.3,gy-h);}g.stroke();
+  if(S.side){const post=S.side.post;g.fillStyle=C.ink;g.globalAlpha=.08;g.beginPath();g.ellipse(ox-s*.05,gy+1,s*.55,s*.04,0,0,TAU);g.fill();g.globalAlpha=1;
+    const dot=Math.max(1.8,s*.03);g.lineCap='round';g.lineWidth=dot;
+    for(const col of['lion2','lion']){g.strokeStyle=C[col];g.beginPath();
+      for(const p of S.side.parts){const far=(p.s==='l'&&(p.leg===1||p.leg===3))||p.s==='tt';if((col==='lion2')!==far)continue;const x=ox+p.x*s,y=gy-p.y*s;g.moveTo(x,y);g.lineTo(x+.01,y);}g.stroke();}
+    const fs=Math.max(11,r.h*(big?.1:.105)),pad=r.h*.07;g.textAlign='left';g.fillStyle=C.ink;g.font=`600 ${fs}px ${C.zhF}`;
+    const zh=SIDE_ZH[post]||'';g.fillText(zh,r.x+pad,r.y+fs*1.3);const zw=g.measureText(zh).width;
+    g.fillStyle=C.muted;g.font=`italic ${fs*.85}px ${C.enF}`;g.fillText(SIDE_EN[post]||'',r.x+pad+zw+fs*.4,r.y+fs*1.3);
+    g.font=`${fs*.72}px ${C.monoF}`;g.textAlign='right';g.fillText('侧视',r.x+r.w-pad,r.y+fs*1.3);}
+  g.restore();
+}
+
+/* ---------- main view ---------- */
+let C={};
+const grainCache={};
+function readTokens(){const cs=getComputedStyle(document.documentElement);
+  for(const n of['paper','ink','muted','lion','lion2','prey','prey2','carcass','hyena','grass','tall','bush','water','dust','accent','good','veil','rule'])C[n]=cs.getPropertyValue('--'+n).trim();
+  C.monoF=cs.getPropertyValue('--f-mono').trim();C.zhF=cs.getPropertyValue('--f-zh').trim();C.enF=cs.getPropertyValue('--f-en').trim();for(const k in grainCache)delete grainCache[k];}
+function getGrain(w,h){w=Math.max(1,Math.round(w));h=Math.max(1,Math.round(h));const key=w+'x'+h;if(grainCache[key])return grainCache[key];const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');const s=mulb(7);g.fillStyle=C.ink;for(let i=0;i<w*h/90;i++){g.globalAlpha=s()*.05;g.fillRect(s()*w,s()*h,1.4,1.4);}return grainCache[key]=c;}
+function camView(vp,cam){const K=Math.max(vp.w/W,vp.h/H)*cam.z;const vw=vp.w/K,vh=vp.h/K;
+  return{K,cx:vw>=W?W/2:clamp(cam.cx,vw/2,W-vw/2),cy:vh>=H?H/2:clamp(cam.cy,vh/2,H-vh/2)};}
+function camAim(S){const L=S.focus;if(!L)return[W/2,H/2];const t=L.tasks[0];let p=null;if(t&&(t.t==='chase'||t.t==='kill'))p=t.t==='chase'?t.get():t.p;else if(S.measure)p=S.measure[1];
+  return p?[(L.x+p.x)/2,(L.y+p.y)/2]:[L.x,L.y];}
+function draw(S,g,vp,cam,dt,o={}){
+  const V=camView(vp,cam),K=V.K;const X=x=>vp.x+vp.w/2+(x-V.cx)*K,Y=y=>vp.y+vp.h/2+(y-V.cy)*K;
+  g.save();g.beginPath();g.rect(vp.x,vp.y,vp.w,vp.h);g.clip();
+  g.fillStyle=C.paper;g.fillRect(vp.x,vp.y,vp.w,vp.h);g.drawImage(getGrain(vp.w,vp.h),vp.x,vp.y,vp.w,vp.h);
+  g.lineCap='round';
+  if(S.char.length){g.fillStyle=C.ink;g.globalAlpha=.22;for(const[x,y,r]of S.char){g.beginPath();g.arc(X(x),Y(y),Math.max(.8,r*K*.35),0,TAU);g.fill();}g.globalAlpha=1;}
+  for(const w of S.water){g.beginPath();w.forEach(([x,y],i)=>i?g.lineTo(X(x),Y(y)):g.moveTo(X(x),Y(y)));g.closePath();g.globalAlpha=.55;g.fillStyle=C.water;g.fill();g.globalAlpha=1;}
+  if(S.ripples.length){g.strokeStyle=C.paper;g.lineWidth=Math.max(1,.35*K);g.globalAlpha=.6;g.beginPath();
+    for(const r of S.ripples){const o2=Math.sin(S.t*.8+r.ph)*1.2;g.moveTo(X(r.x+o2),Y(r.y));g.lineTo(X(r.x+o2+r.l),Y(r.y+Math.sin(S.t+r.ph)*.2));}g.stroke();g.globalAlpha=1;}
+  for(const p of S.paths){g.strokeStyle=C.dust;g.lineWidth=2.2*K;g.globalAlpha=.55;g.beginPath();p.forEach(([x,y],i)=>i?g.lineTo(X(x),Y(y)):g.moveTo(X(x),Y(y)));g.stroke();g.globalAlpha=1;}
+  for(const b of S.banks){g.strokeStyle=C.ink;g.globalAlpha=.55;g.lineWidth=Math.max(1,.3*K);g.beginPath();b.pts.forEach(([x,y],i)=>i?g.lineTo(X(x),Y(y)):g.moveTo(X(x),Y(y)));g.stroke();
+    g.beginPath();for(let i=0;i<b.pts.length-1;i++){const a=b.pts[i],c=b.pts[i+1],l=hyp(c[0]-a[0],c[1]-a[1]),nx=-(c[1]-a[1])/l*b.side,ny=(c[0]-a[0])/l*b.side;
+      for(let s=0;s<l;s+=2.4){const x=a[0]+(c[0]-a[0])*s/l,y=a[1]+(c[1]-a[1])*s/l,len=1.6+((s*7)%3)*.5;g.moveTo(X(x),Y(y));g.lineTo(X(x+nx*len),Y(y+ny*len));}}g.stroke();g.globalAlpha=1;}
+  for(const[x,y,r]of S.shade){const gr=g.createRadialGradient(X(x),Y(y),0,X(x),Y(y),r*K);gr.addColorStop(0,C.bush);gr.addColorStop(1,'rgba(0,0,0,0)');g.globalAlpha=.45;g.fillStyle=gr;g.beginPath();g.ellipse(X(x),Y(y),r*K,r*.8*K,0,0,TAU);g.fill();g.globalAlpha=1;
+    g.fillStyle=C.bush;g.globalAlpha=.5;const s=mulb(3);for(let i=0;i<70;i++){const a=s()*TAU,d=(.75+s()*.3)*r;g.beginPath();g.arc(X(x+Math.cos(a)*d),Y(y+Math.sin(a)*d*.8),Math.max(1,(.5+s())*K*.6),0,TAU);g.fill();}g.globalAlpha=1;}
+  const wind=S.wind?S.wind.a:Math.PI*.9;const movers=[...S.lions,...S.prey].filter(a=>a.sv>1);
+  g.strokeStyle=C.grass;g.lineWidth=Math.max(1,.32*K);g.beginPath();
+  for(const gs of S.grass){let sw=Math.sin(S.t*1.3+gs.ph+gs.x*.04)*.5;let bx=Math.cos(wind)*sw*.8,by=-gs.l;
+    for(const m of movers){const dx=gs.x-m.x,dy=gs.y-m.y,d=dx*dx+dy*dy;if(d<16){const f=(16-d)/16;bx+=dx*f*.5;by+=Math.abs(dy)*f*.3;}}
+    g.moveTo(X(gs.x),Y(gs.y));g.lineTo(X(gs.x+bx*.6),Y(gs.y+by*.55));g.moveTo(X(gs.x+.5),Y(gs.y));g.lineTo(X(gs.x+.5+bx*.5+.4),Y(gs.y+by*.4));}
+  g.stroke();
+  for(const L of S.lions)if(L.trail&&L.trail.length>1){g.save();g.setLineDash([1,Math.max(4,1.6*K)]);g.strokeStyle=C.ink;g.globalAlpha=.7;g.lineWidth=Math.max(1.4,.5*K);g.beginPath();
+    L.trail.forEach(([x,y],i)=>i?g.lineTo(X(x),Y(y)):g.moveTo(X(x),Y(y)));g.lineTo(X(L.x),Y(L.y));g.stroke();g.restore();}
+  g.fillStyle=C.dust;for(const d of S.dust){g.globalAlpha=clamp(d.life,0,1)*.8;g.beginPath();g.arc(X(d.x),Y(d.y),Math.max(.8,.45*K*d.m),0,TAU);g.fill();}g.globalAlpha=1;
+  g.lineWidth=Math.max(1.7,.62*K);
+  const groups=new Map();const add=(col,p)=>{let q=groups.get(col);if(!q){q=[];groups.set(col,q);}q.push(p);};
+  for(const a of[...S.others,...S.prey,...S.lions]){const c1=a.state==='dead'?C.carcass:C[a.K.col],c2=a.state==='dead'?C.carcass:C[a.K.col2];for(const p of a.parts)add(p.c?c2:c1,p);}
+  const vk=dt>0?.035:0;
+  for(const[col,ps]of groups){g.strokeStyle=col;g.beginPath();
+    for(const p of ps){let ex=p.svx*vk,ey=p.svy*vk;const e=hyp(ex,ey);if(e>3){ex*=3/e;ey*=3/e;}g.moveTo(X(p.x),Y(p.y));g.lineTo(X(p.x-ex)+.01,Y(p.y-ey));}g.stroke();}
+  for(const b of S.bushes){if(b.kind==='tall'){g.strokeStyle=C.tall;g.lineWidth=Math.max(1,.35*K);g.beginPath();
+      for(const d of b.dots){const sw=Math.sin(S.t*1.2+d.ph)*.4;g.moveTo(X(d.x),Y(d.y));g.lineTo(X(d.x+sw),Y(d.y-d.l));}g.stroke();}
+    else{g.fillStyle=C.bush;g.globalAlpha=.78;for(const d of b.dots){g.beginPath();g.arc(X(d.x+Math.sin(S.t*.7+d.ph)*.08),Y(d.y),Math.max(1.2,d.s*K*.55),0,TAU);g.fill();}g.globalAlpha=1;}}
+  const fs=o.big?Math.round(vp.h*.026):Math.max(10,Math.min(13,2.4*K));
+  g.fillStyle=C.accent;g.font=`600 ${Math.max(10,2.6*K)}px ${C.monoF}`;g.textAlign='center';
+  for(const p of S.prey)if(!busy(p)&&(p.alertT>0||p.state==='alert')&&p.x>-5&&p.x<W+5)g.fillText('!',X(p.x),Y(p.y-p.K.S*.9));
+  for(const[x,y,t]of S.labels){g.fillStyle=C.muted;g.font=`${fs}px ${C.zhF}`;g.textAlign='left';g.fillText(t,X(x),Y(y));}
+  if(S.measure){const[a,b]=S.measure;g.save();g.strokeStyle=C.accent;g.lineWidth=Math.max(1,.3*K);g.setLineDash([4,4]);g.beginPath();g.moveTo(X(a.x),Y(a.y));g.lineTo(X(b.x),Y(b.y));g.stroke();g.restore();
+    const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,txt=Math.round(dist(a,b))+' m';g.font=`500 ${fs*1.1}px ${C.monoF}`;g.textAlign='center';
+    const tw=g.measureText(txt).width+10;g.fillStyle=C.paper;g.fillRect(X(mx)-tw/2,Y(my)-fs*2.6,tw,fs*1.6);g.fillStyle=C.accent;g.fillText(txt,X(mx),Y(my)-fs*1.4);}
+  if(S.kl){const x=X(S.kl.x),y=Y(S.kl.y),dx=fs*4.2,dy=fs*4.4;g.strokeStyle=C.ink;g.lineWidth=1;g.beginPath();g.moveTo(x+fs*.4,y-fs*.4);g.lineTo(x+dx,y-dy);g.lineTo(x+dx+fs*2.6,y-dy);g.stroke();
+    g.font=`600 ${fs*1.1}px ${C.zhF}`;g.textAlign='left';const lw2=g.measureText(S.kl.txt).width;g.fillStyle=C.paper;g.globalAlpha=.88;g.fillRect(x+dx,y-dy-fs*1.5,lw2+8,fs*1.35);g.globalAlpha=1;g.fillStyle=C.ink;g.fillText(S.kl.txt,x+dx+4,y-dy-fs*.35);}
+  if(S.night){g.fillStyle=C.veil;g.fillRect(vp.x,vp.y,vp.w,vp.h);const gr=g.createRadialGradient(vp.x+vp.w*.5,vp.y+vp.h*.5,vp.h*.2,vp.x+vp.w*.5,vp.y+vp.h*.5,vp.w*.7);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,C.veil);g.fillStyle=gr;g.fillRect(vp.x,vp.y,vp.w,vp.h);}
+  g.font=`400 ${fs}px ${C.monoF}`;g.textAlign='left';g.fillStyle=C.ink;g.strokeStyle=C.ink;g.lineWidth=1.2;
+  const pad=Math.max(10,fs*1.1),bx=vp.x+pad,by=vp.y+vp.h-pad,bl=25*K;g.beginPath();g.moveTo(bx,by);g.lineTo(bx+bl,by);g.moveTo(bx,by-4);g.lineTo(bx,by);g.moveTo(bx+bl,by-4);g.lineTo(bx+bl,by);g.stroke();
+  g.fillText('25 m',bx+bl+6,by+3);
+  let hy=vp.y+pad+fs;
+  if(S.wind){const cx=bx+12,cy=hy;g.save();g.translate(cx,cy-4);g.rotate(S.wind.a);g.beginPath();g.moveTo(-10,0);g.lineTo(10,0);g.moveTo(10,0);g.lineTo(5,-4);g.moveTo(10,0);g.lineTo(5,4);g.stroke();g.restore();g.fillText('风向',cx+18,cy);hy+=fs*1.6;}
+  if(S.tag){g.fillStyle=S.night?C.ink:C.muted;g.fillText(S.tag,bx,hy);}
+  if(S.result){const win=S.result==='win';const t1=win?'这次：成功':'这次：失败',t2='此方式成功率 '+pct(S.p);g.textAlign='right';
+    g.font=`900 ${fs*1.6}px ${C.zhF}`;const w1=g.measureText(t1).width;g.font=`${fs}px ${C.monoF}`;const w2=g.measureText(t2).width;const bw=Math.max(w1,w2)+fs*1.6,bh=fs*4.2,rx=vp.x+vp.w-pad-bw,ry=vp.y+pad;
+    g.fillStyle=C.paper;g.globalAlpha=.92;g.fillRect(rx,ry,bw,bh);g.globalAlpha=1;g.strokeStyle=win?C.good:C.accent;g.lineWidth=2;g.strokeRect(rx,ry,bw,bh);
+    g.fillStyle=win?C.good:C.accent;g.font=`900 ${fs*1.6}px ${C.zhF}`;g.fillText(t1,rx+bw-fs*.8,ry+fs*2);g.fillStyle=C.muted;g.font=`${fs}px ${C.monoF}`;g.fillText(t2,rx+bw-fs*.8,ry+fs*3.4);}
+  else{g.textAlign='right';g.fillStyle=C.muted;g.fillText('N ↑',vp.x+vp.w-pad,vp.y+pad+fs);}
+  g.restore();
+}
+
+/* ---------- player ---------- */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),stage=document.getElementById('stage');
+const sv=document.getElementById('sv'),sctx=sv.getContext('2d'),sideBox=sv.parentElement;
+let dpr=1,cw=0,chh=0,sw=0,sh=0;
+function resize(){const r=stage.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);cw=r.width;chh=r.height;cv.width=Math.max(1,Math.round(cw*dpr));cv.height=Math.max(1,Math.round(chh*dpr));
+  const q=sideBox.getBoundingClientRect();sw=q.width;sh=q.height;sv.width=Math.max(1,Math.round(sw*dpr));sv.height=Math.max(1,Math.round(sh*dpr));}
+const $=id=>document.getElementById(id);
+const capN=$('capN'),capZh=$('capZh'),capEn=$('capEn'),prog=$('prog'),tabs=$('tabs'),notes=$('notes'),chart=$('chart'),chips=$('chips');
+const bPlay=$('bPlay'),bReplay=$('bReplay'),spd=$('spd'),auto=$('auto'),modeSel=$('mode'),follow=$('follow');
+let cur=0,S=null,playing=true,speed=1,shownCap=-1,holdT=0,condI=0,exhibit=false;const cam={z:1,cx:W/2,cy:H/2};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function decide(p,mode){return mode==='win'?true:mode==='lose'?false:Math.random()<p;}
+function build(i,win,cond){const sc=SCENES[i];seed(1000+i*77+(win?0:500));const w=newWorld();w.cond=i===0?cond:null;w.p=w.cond?w.cond.p:sc.p;w.win=win;sc.setup(w,win);return w;}
+function load(i,o={}){cur=i;if(i!==0)condI=0;const cond=COND[condI];const p=i===0?cond.p:SCENES[i].p;
+  S=build(i,o.win!=null?o.win:decide(p,modeSel.value),cond);shownCap=-1;holdT=0;const a=camAim(S);cam.cx=a[0];cam.cy=a[1];
+  if(o.presim){let n=0;while(S.capN<5&&n++<5000)step(S,1/60,false);for(let j=0;j<40;j++)step(S,1/60,false);for(const a of[...S.lions,...S.prey,...S.others])a.snap();}
+  sideUpdate(S,0);
+  [...tabs.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===i?'true':'false'));
+  [...chips.children].forEach((b,j)=>b.setAttribute('aria-pressed',(i===0&&j===condI)?'true':'false'));
+  renderNotes();renderChart();updCap();}
+function capText(S){const c=SCENES[S===V?.S?V.i:cur].caps[S.capK];return c?(typeof c==='function'?c(S):c):['',''];}
+function updCap(){if(S.capN===shownCap)return;shownCap=S.capN;const c=capText(S);capN.textContent=SCENES[cur].zh+' · '+String(S.capN).padStart(2,'0');capZh.textContent=c[0];capEn.textContent=c[1];}
+function renderNotes(){const sc=SCENES[cur];notes.innerHTML=`<h2>${sc.zh}<em>${sc.en}</em></h2><div class="stats">${sc.notes.stats.map(([a,b])=>`<span>${a} <b>${b}</b></span>`).join('')}</div><ul>${sc.notes.li.map(([t,p])=>`<li>${t} <span class="pg">${p}</span></li>`).join('')}</ul>`;}
+const MAXV=70;
+function renderChart(){const on=SCENES[cur].bar;chart.innerHTML=BARS.map(([k,l,v])=>`<div class="bar${k===on?' on':''}"><span class="lab">${l}</span><div class="track"><i style="width:${v/MAXV*100}%"></i><b style="left:${v/MAXV*100}%">${v}%</b></div></div>`).join('')+
+  `<div class="axis"><span></span><div>${[0,20,40,60].map(v=>`<span style="left:${v/MAXV*100}%">${v}%</span>`).join('')}</div></div>`;}
+SCENES.forEach((sc,i)=>{const b=document.createElement('button');b.type='button';b.className='tab';b.innerHTML=`<b>${sc.zh}</b><span>${sc.en}</span><small>${sc.chip}</small>`;b.onclick=()=>{load(i);setPlay(true);};tabs.appendChild(b);});
+COND.forEach((c,j)=>{const b=document.createElement('button');b.type='button';b.className='chip';b.innerHTML=`${c.zh}<i>${pct(c.p)}</i>`;b.title=c.src;
+  b.onclick=()=>{condI=j;$('condNote').textContent=`${c.zh}：${c.src}。表 55、56 统计的是潜近与追逐（含群体），表 57 与表 58 只算单狮。每次只改变一个条件。`;load(0);setPlay(true);};chips.appendChild(b);});
+function setPlay(v){playing=v;bPlay.textContent=v?'❚❚ 暂停':'▶ 播放';}
+bPlay.onclick=()=>{if(S.done)load(cur);setPlay(!playing);};
+bReplay.onclick=()=>{load(cur);setPlay(true);};
+spd.onchange=()=>{speed=+spd.value;};
+modeSel.onchange=()=>{load(cur);setPlay(true);};
+function enterExhibit(fs){exhibit=true;document.body.classList.add('exhibit');auto.checked=true;modeSel.value='real';follow.checked=false;
+  if(fs&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});setPlay(true);if(S&&S.done)load(cur);}
+function exitExhibit(){exhibit=false;document.body.classList.remove('exhibit');if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});}
+$('bExhibit').onclick=()=>enterExhibit(true);$('bExit').onclick=exitExhibit;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&exhibit)exitExhibit();});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&exhibit)exitExhibit();});
+let last=performance.now(),lastDt=1/60;
+function frame(now){let dt=Math.min(.034,(now-last)/1000);last=now;
+  if(playing&&!S.done){const sdt=dt*speed;const n=Math.max(1,Math.ceil(sdt/(1/90)));for(let i=0;i<n;i++)step(S,sdt/n);lastDt=sdt/n;updCap();sideUpdate(S,sdt);}
+  else if(S.done&&playing){holdT+=dt;if(auto.checked&&holdT>1.2)load((cur+1)%SCENES.length);else if(!auto.checked)setPlay(false);}
+  const z=follow.checked&&!exhibit?1.8:1;cam.z+=(z-cam.z)*(1-Math.exp(-3*dt));const a=camAim(S);const f=1-Math.exp(-2.2*dt);cam.cx+=(a[0]-cam.cx)*f;cam.cy+=(a[1]-cam.cy)*f;
+  prog.style.width=Math.min(100,S.t/SCENES[cur].dur*100)+'%';
+  ctx.setTransform(dpr,0,0,dpr,0,0);draw(S,ctx,{x:0,y:0,w:cw,h:chh},cam,playing&&!S.done?lastDt:0);
+  sctx.setTransform(dpr,0,0,dpr,0,0);drawSide(S,sctx,{x:0,y:0,w:sw,h:sh});
+  requestAnimationFrame(frame);}
+
+/* ---------- headless test + vertical video renderer ---------- */
+window.__test=(i,win,secs=90,condK)=>{const c=COND.find(x=>x.k===condK)||COND[0];const w=build(i,win,c);while(!w.done&&w.t<secs)step(w,1/60,false);return{t:+w.t.toFixed(1),done:w.done,result:w.result,log:w.log.join(' ')};};
+window.__show=(i,win,t,condK)=>{if(condK){condI=COND.findIndex(x=>x.k===condK);}load(i,{win});while(S.t<t&&!S.done){step(S,1/60);sideUpdate(S,1/60);}updCap();setPlay(false);const a=camAim(S);cam.cx=a[0];cam.cy=a[1];};
+function wrapLines(g,text,maxW){const out=[];let line='';const toks=/[\u4e00-\u9fff]/.test(text)?[...text]:text.split(/(?<= )/);for(const ch of toks){const t=line+ch;if(g.measureText(t).width>maxW&&line){out.push(line);line=ch.trim()?ch:'';}else line=t;}if(line)out.push(line);return out;}
+let V=null;
+window.__video={
+  init(i,win=true){readTokens();V={i,S:build(i,win,COND[0]),cam:{z:1.3,cx:W/2,cy:H/2},cv:document.createElement('canvas'),hold:0};V.cv.width=1080;V.cv.height=1920;
+    const a=camAim(V.S);V.cam.cx=a[0];V.cam.cy=a[1];sideUpdate(V.S,0);return SCENES[i].id;},
+  frame(){const S=V.S,dt=1/30;if(!S.done){for(let k=0;k<3;k++)step(S,dt/3);sideUpdate(S,dt);}else V.hold+=dt;
+    const a=camAim(S),f=1-Math.exp(-2.2*dt);V.cam.cx+=(a[0]-V.cam.cx)*f;V.cam.cy+=(a[1]-V.cam.cy)*f;
+    const g=V.cv.getContext('2d'),sc=SCENES[V.i];g.setTransform(1,0,0,1,0,0);g.fillStyle=C.paper;g.fillRect(0,0,1080,1920);g.drawImage(getGrain(1080,1920),0,0);
+    g.textAlign='left';g.fillStyle=C.muted;g.font=`500 30px ${C.monoF}`;g.fillText(`狮猎七式 · 第 ${V.i+1} 式`,64,110);
+    g.fillStyle=C.ink;g.font=`900 104px ${C.zhF}`;g.fillText(sc.zh,60,228);const tw=g.measureText(sc.zh).width;
+    g.fillStyle=C.muted;g.font=`italic 44px ${C.enF}`;g.fillText(sc.en,60+tw+28,226);
+    draw(S,g,{x:0,y:290,w:1080,h:1010},V.cam,S.done?0:dt/3,{big:true});
+    g.strokeStyle=C.rule;g.lineWidth=2;g.beginPath();g.moveTo(0,290);g.lineTo(1080,290);g.moveTo(0,1300);g.lineTo(1080,1300);g.stroke();
+    drawSide(S,g,{x:0,y:1302,w:1080,h:300},true);
+    g.strokeStyle=C.rule;g.beginPath();g.moveTo(0,1602);g.lineTo(1080,1602);g.stroke();
+    const c=capText(S);g.fillStyle=C.ink;g.font=`600 44px ${C.zhF}`;let y=1668;for(const l of wrapLines(g,c[0],952).slice(0,3)){g.fillText(l,64,y);y+=60;}
+    g.fillStyle=C.muted;g.font=`italic 30px ${C.enF}`;y+=2;for(const l of wrapLines(g,c[1],952).slice(0,2)){g.fillText(l,64,y);y+=38;}
+    g.fillStyle=C.muted;g.font=`22px ${C.monoF}`;g.fillText('资料：George B. Schaller《塞伦盖蒂的狮子》(1972) 第八章',64,1896);
+    return V.cv.toDataURL('image/jpeg',.92);},
+  done(){return V.S.done&&V.hold>=2;}
+};
+
+const mo=new MutationObserver(readTokens);mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readTokens);
+new ResizeObserver(resize).observe(stage);new ResizeObserver(resize).observe(sideBox);
+readTokens();resize();
+follow.checked=cw<640;
+if(location.hash==='#exhibit')enterExhibit(false);
+if(reduce&&!exhibit){load(0,{presim:true});setPlay(false);auto.checked=false;}else load(0);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(readTokens);
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
