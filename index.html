@@ -318,7 +318,8 @@ function preyUpdate(S,p,dt){
     case'graze':{const hd=p.herd;const tx=hd.cx+p.ax+Math.sin(S.t*.3+p.wph)*1.6,ty=hd.cy+p.ay+Math.cos(S.t*.27+p.wph)*1.2;
       steer(p,tx,ty,.7);p.hdT-=dt;if(p.hdT<0){p.headDown=!p.headDown;p.hdT=p.headDown?rr(2,5):rr(.8,2);}
       if(hyp(p.vx,p.vy)<.3&&R()<dt*.25)p.ht=p.h+rr(-.6,.6);break;}
-    case'alert':{p.headDown=false;if(p.threat)faceTo(p,p.threat);if(p.until&&S.t>p.until){p.state=p.route?'path':'graze';p.until=0;}break;}
+    case'alert':{p.headDown=false;if(p.threat)faceTo(p,p.threat);if(p.until&&S.t>p.until){p.state=p.route?'path':'graze';p.until=0;}
+      else if(p.calm&&p.threat&&p.threat.x!=null&&dist(p,p.threat)<p.calm*.6){p.state='flee';p.delay=rr(0,.2);p.alertT=1.2;}break;}
     case'flee':{if(p.delay>0){p.delay-=dt;p.headDown=false;faceTo(p,p.threat);break;}
       const th=p.threat;let ax=p.x-th.x,ay=p.y-th.y;const d=hyp(ax,ay)||1;ax/=d;ay/=d;
       let dx=ax+p.bias[0],dy=ay+p.bias[1];
@@ -452,10 +453,11 @@ const SCENES=[
     const L=ls[0];S.focus=L;
     at(S,0,S=>say(S,'walk'));
     at(S,4.5,S=>{say(S,'see');ls.forEach(l=>l.tasks=[T.wait(40,'stand',herd[0])]);});
-    at(S,7.5,S=>{say(S,'run');alarm(S,herd,L,{base:.7,calm:70,bias:()=>[.9,-.25]});
-      if(!win)alarm(S,edge,L,{base:1.2,calm:70,bias:()=>[.9,.3]});
-      L.tasks=[T.go(130,62,'trot'),T.go(176,90,'sprint'),
-        T.call(S=>{if(win){say(S,'crest');const tg=nearest(edge,L);tg.hc={delay:.35,vmax:9};alarm(S,edge,L,{calm:70,bias:()=>[1,.25]});S.target=tg;
+    at(S,7.5,S=>{say(S,'run');
+      L.tasks=[T.go(126,60,'trot'),
+        T.call(S=>{alarm(S,herd,L,{base:.1,calm:80,bias:()=>[.9,-.25]});if(!win)alarm(S,edge,L,{base:.3,calm:80,bias:()=>[1.6,-.15]});}),
+        T.go(176,90,'sprint'),
+        T.call(S=>{if(win){say(S,'crest');const tg=nearest(edge,L);tg.hc={delay:.35,vmax:9};alarm(S,edge,L,{calm:80,bias:()=>[1.6,-.15]});S.target=tg;
           L.tasks.unshift(T.chase(()=>S.target,{win:true,max:6,onCatch:S=>finish(S,true)}));}else finish(S,false,5);}),
         T.wait(40,'stand',herd[0])];});
   }},
